@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'MustacheServices_Example' do
+  pod 'MustacheServices', :path => '../'
+
+  target 'MustacheServices_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

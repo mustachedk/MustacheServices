@@ -1,6 +1,10 @@
+
+platform :ios, '11.0'
+
 use_frameworks!
 
 target 'MustacheServices_Example' do
+
   pod 'MustacheServices', :path => '../'
 
   target 'MustacheServices_Tests' do

@@ -28,7 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		59081FE51839EC912524C41A /* MustacheServices.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = MustacheServices.podspec; path = ../MustacheServices.podspec; sourceTree = "<group>"; };
+		59081FE51839EC912524C41A /* MustacheServices.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = MustacheServices.podspec; path = ../MustacheServices.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		607FACD01AFB9204008FA782 /* MustacheServices_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MustacheServices_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -43,8 +43,8 @@
 		693F7811684051129D60867D /* Pods-MustacheServices_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MustacheServices_Tests.release.xcconfig"; path = "Target Support Files/Pods-MustacheServices_Tests/Pods-MustacheServices_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		97E1AFB6338020F2451A6A18 /* Pods-MustacheServices_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MustacheServices_Example.release.xcconfig"; path = "Target Support Files/Pods-MustacheServices_Example/Pods-MustacheServices_Example.release.xcconfig"; sourceTree = "<group>"; };
 		9880E2BA014BE499AFFCE04B /* Pods-MustacheServices_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MustacheServices_Tests.debug.xcconfig"; path = "Target Support Files/Pods-MustacheServices_Tests/Pods-MustacheServices_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		B3831E5F99A5D463F047E5F3 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		C1B0CDD5ABA7DB9BD0872342 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		B3831E5F99A5D463F047E5F3 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		C1B0CDD5ABA7DB9BD0872342 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		C59068FBC51352F98BB2E3AA /* Pods_MustacheServices_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MustacheServices_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD95199174F2636A831E5EB8 /* Pods_MustacheServices_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MustacheServices_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -156,7 +156,6 @@
 				9880E2BA014BE499AFFCE04B /* Pods-MustacheServices_Tests.debug.xcconfig */,
 				693F7811684051129D60867D /* Pods-MustacheServices_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -227,6 +226,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -315,13 +315,13 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MustacheServices_Example/Pods-MustacheServices_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/MustacheServices/MustacheServices.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftKeychainWrapper/SwiftKeychainWrapper.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MustacheServices.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftKeychainWrapper.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

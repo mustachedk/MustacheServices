@@ -1,6 +1,6 @@
 import Foundation
 
-protocol DAWAServiceType: Service {
+public protocol DAWAServiceType: Service {
 
     func choices(searchText: String, completionHandler: @escaping (Result<[AutoCompleteModel], Error>) -> ())
 

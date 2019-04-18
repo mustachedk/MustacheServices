@@ -1,7 +1,3 @@
-//
-// Created by Tommy Hinrichsen on 2019-01-24.
-// Copyright (c) 2019 Adoor ApS. All rights reserved.
-//
 
 import Foundation
 import UIKit

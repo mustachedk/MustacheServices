@@ -1,7 +1,3 @@
-//
-// Created by Tommy Sadiq Hinrichsen on 2019-02-01.
-// Copyright (c) 2019 Mustache ApS. All rights reserved.
-//
 
 import Foundation
 import UserNotifications
@@ -33,4 +29,3 @@ public final class NotificationService: NSObject, NotificationServiceType, UNUse
 
     public func clearState() {}
 }
-

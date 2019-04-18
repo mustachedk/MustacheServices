@@ -1,7 +1,3 @@
-//
-// Created by Tommy Hinrichsen on 2018-11-19.
-// Copyright (c) 2018 Mustache ApS. All rights reserved.
-//
 
 import Foundation
 import SwiftKeychainWrapper

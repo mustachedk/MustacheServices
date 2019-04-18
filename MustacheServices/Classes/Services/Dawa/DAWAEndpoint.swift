@@ -1,9 +1,5 @@
 import Foundation
 
-#if MustacheRx
-import RxSwift
-#endif
-
 public enum DAWAEndpoint {
 
     case get(searchText: String)

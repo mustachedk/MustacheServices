@@ -1,7 +1,3 @@
-//
-// Created by Tommy Hinrichsen on 14/09/2018.
-// Copyright (c) 2018 Mustache ApS. All rights reserved.
-//
 
 import Foundation
 

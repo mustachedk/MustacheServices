@@ -88,7 +88,7 @@ public protocol DawaViewModelType {
 }
 
 open class DawaViewModel: NSObject, DawaViewModelType {
-    
+
     #if MustacheRx
 
     public let searchText = PublishSubject<String>()

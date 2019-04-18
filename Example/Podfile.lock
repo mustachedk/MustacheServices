@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  MustacheServices: f6094d967c7c512f457b2a118b3f817c984d730e
+  MustacheServices: 64af5ff149263a331d88be8d81dde7155c2d466e
   SwiftKeychainWrapper: 82c4c02cdc36f9a24f7edfcaab3e336401caa1a1
 
 PODFILE CHECKSUM: e7071a7ee60a820cf8b0ce2f205d64bc55139943

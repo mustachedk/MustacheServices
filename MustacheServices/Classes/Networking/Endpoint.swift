@@ -23,7 +23,7 @@ extension Endpoint {
 
 public extension Endpoint {
 
-    public func request() -> URLRequest {
+    func request() -> URLRequest {
 
         guard var components = URLComponents(url: self.baseURL.appendingPathComponent(self.path), resolvingAgainstBaseURL: false) else {
             fatalError("Unable to create URL components")

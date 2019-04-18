@@ -1,6 +1,8 @@
-
 import Foundation
+
+#if MustacheRx
 import RxSwift
+#endif
 
 public enum DAWAEndpoint {
 
@@ -40,7 +42,27 @@ extension DAWAEndpoint: Endpoint {
     public var demoData: Decodable? { return nil }
 }
 
-extension APIClientServiceType {
+extension NetworkServiceType {
+
+    @discardableResult
+    public func getAutoCompleteChoices(searchText: String, completionHandler: @escaping (Result<[AutoCompleteModel], Error>) -> ()) -> URLSessionDataTask {
+        let endpoint = DAWAEndpoint.get(searchText: searchText)
+        return self.send(endpoint: endpoint, completionHandler: completionHandler)
+    }
+
+    @discardableResult
+    public func getAddress(href: String, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) -> URLSessionDataTask {
+        let endpoint = DAWAEndpoint.getAddress(href: href)
+        return self.send(endpoint: endpoint, completionHandler: completionHandler)
+    }
+
+    @discardableResult
+    public func getNearestAddress(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) -> URLSessionDataTask {
+        let endpoint = DAWAEndpoint.nearest(latitude: latitude, longitude: longitude)
+        return self.send(endpoint: endpoint, completionHandler: completionHandler)
+    }
+
+    #if MustacheRx
 
     public func getAutoCompleteChoices(searchText: String) -> Single<[AutoCompleteModel]> {
         let endpoint = DAWAEndpoint.get(searchText: searchText)
@@ -56,5 +78,7 @@ extension APIClientServiceType {
         let endpoint = DAWAEndpoint.nearest(latitude: latitude, longitude: longitude)
         return self.send(endpoint: endpoint)
     }
+
+    #endif
 
 }

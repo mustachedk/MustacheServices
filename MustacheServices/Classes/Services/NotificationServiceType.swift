@@ -5,17 +5,28 @@
 
 import Foundation
 import UserNotifications
+
+#if MustacheRx
 import RxSwift
+#endif
 
 protocol NotificationServiceType: Service {
 
+    func registerForPushNotifications(completionHandler: @escaping (Bool, Error?) -> Void)
+
+    #if MustacheRx
+
     func registerForPushNotifications() -> Observable<Bool>
+
+    #endif
 
 }
 
-final class NotificationService: NSObject, NotificationServiceType {
+final class NotificationService: NSObject, NotificationServiceType, UNUserNotificationCenterDelegate {
 
     required init(services: Services) throws {}
+
+    #if MustacheRx
 
     func registerForPushNotifications() -> Observable<Bool> {
         return Observable<Bool>.create { (observer) in
@@ -34,14 +45,23 @@ final class NotificationService: NSObject, NotificationServiceType {
                 })
     }
 
-    fileprivate func getNotificationSettings() {
+    #endif
 
+    func registerForPushNotifications(completionHandler: @escaping (Bool, Error?) -> Void) {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { [weak self] granted, error in
+            if granted { self?.getNotificationSettings() }
+            completionHandler(granted, error)
+        }
+    }
+
+
+    fileprivate func getNotificationSettings() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             guard settings.authorizationStatus == .authorized else { return }
             UIApplication.shared.registerForRemoteNotifications()
         }
-
     }
 
     func clearState() {}
 }
+

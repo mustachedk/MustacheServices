@@ -4,9 +4,13 @@
 //
 
 import Foundation
+
+#if MustacheRx
 import RxSwift
 import RxSwiftExt
 import RxCocoa
+#endif
+
 import CoreLocation
 
 /*
@@ -67,6 +71,8 @@ import CoreLocation
 
 public protocol DawaViewModelType {
 
+    #if MustacheRx
+
     var searchText: PublishSubject<String> { get }
     var cursorPosition: PublishSubject<Int> { get }
 
@@ -77,9 +83,13 @@ public protocol DawaViewModelType {
 
     func getNearest() -> Observable<AutoCompleteAddress?>
 
+    #endif
+
 }
 
 open class DawaViewModel: NSObject, DawaViewModelType {
+    
+    #if MustacheRx
 
     public let searchText = PublishSubject<String>()
     public let cursorPosition = PublishSubject<Int>()
@@ -89,18 +99,27 @@ open class DawaViewModel: NSObject, DawaViewModelType {
 
     public let autoCompleteAddress = PublishSubject<AutoCompleteAddress>()
 
+    fileprivate let disposeBag = DisposeBag()
+
+    #endif
+
     fileprivate let dawaService: DAWAServiceType
     fileprivate let locationService: GeoLocationServiceType
-
-    fileprivate let disposeBag = DisposeBag()
 
     public init(services: ServicesType) throws {
         self.dawaService = try services.get()
         self.locationService = try services.get()
         super.init()
+
+        #if MustacheRx
+
         self.configureAutoComplete()
         self.configureChosenAutoCompleteChoice()
+
+        #endif
     }
+
+    #if MustacheRx
 
     public func getNearest() -> Observable<AutoCompleteAddress?> {
         return self.locationService.location
@@ -148,4 +167,6 @@ open class DawaViewModel: NSObject, DawaViewModelType {
                 })
                 .disposed(by: self.disposeBag)
     }
+
+    #endif
 }

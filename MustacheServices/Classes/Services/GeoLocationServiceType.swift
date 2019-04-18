@@ -6,19 +6,50 @@
 import Foundation
 import UIKit
 import CoreLocation
+
+#if MustacheRx
 import RxSwift
+import RxSwiftExt
 import RxCocoa
+#endif
+
+public protocol GeoLocationServiceTypeDelegate: NSObjectProtocol {
+
+    func authorized(result: Bool)
+
+    func location(location: CLLocation)
+}
 
 public protocol GeoLocationServiceType: Service {
 
-    var authorized: Observable<Bool> { get }
-    var location: Observable<CLLocation> { get }
+    var delegate: GeoLocationServiceTypeDelegate? { get set }
+
+    #if MustacheRx
+
+    var authorized: Observable<Bool> {
+        get
+    }
+
+    var location: Observable<CLLocation> {
+        get
+    }
+
+    #endif
 
 }
 
-public class GeoLocationService: NSObject, GeoLocationServiceType {
+public class GeoLocationService: NSObject, GeoLocationServiceType, CLLocationManagerDelegate {
+
+    public weak var delegate: GeoLocationServiceTypeDelegate? = nil {
+        didSet {
+            self.delegate != nil ? self.locationManager.startUpdatingLocation() : self.locationManager.stopUpdatingLocation()
+        }
+    }
+
+    #if MustacheRx
 
     public var authorized: Observable<Bool>
+
     public lazy var location: Observable<CLLocation> = {
         return locationManager.rx.didUpdateLocations
                 .filter({ (locations: [CLLocation]) -> Bool in
@@ -37,13 +68,19 @@ public class GeoLocationService: NSObject, GeoLocationServiceType {
                 })
     }()
 
-    fileprivate let locationManager = CLLocationManager()
     fileprivate let disposeBag = DisposeBag()
 
-    required public init(services: Services) throws {
+    #endif
 
+    fileprivate let locationManager = CLLocationManager()
+
+    required public init(services: Services) throws {
+        super.init()
         self.locationManager.distanceFilter = kCLDistanceFilterNone
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        self.locationManager.delegate = self
+
+        #if MustacheRx
 
         authorized = locationManager.rx.didChangeAuthorizationStatus.map({ (status: CLAuthorizationStatus) -> Bool in
             switch status {
@@ -53,9 +90,14 @@ public class GeoLocationService: NSObject, GeoLocationServiceType {
                     return false
             }
         })
+
+        #endif
+
         self.locationManager.requestWhenInUseAuthorization()
 
     }
+
+    #if MustacheRx
 
     fileprivate var observers: Int = 0
 
@@ -69,6 +111,16 @@ public class GeoLocationService: NSObject, GeoLocationServiceType {
             self.locationManager.startUpdatingLocation()
 
         }
+    }
+
+    #endif
+
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let first = locations.first { self.delegate?.location(location: first) }
+    }
+
+    public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        self.delegate?.authorized(result: status == .authorizedWhenInUse || status == .authorizedAlways)
     }
 
     public func clearState() {}

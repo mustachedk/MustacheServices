@@ -1,8 +1,4 @@
 import Foundation
-#if MustacheRx
-import RxSwift
-#endif
-
 
 protocol DAWAServiceType: Service {
 
@@ -11,16 +7,6 @@ protocol DAWAServiceType: Service {
     func address(href: String, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ())
 
     func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ())
-
-    #if MustacheRx
-
-    public func choices(searchText: String) -> Observable<[AutoCompleteModel]>
-
-    public func address(href: String) -> Observable<AutoCompleteAddress>
-
-    public func nearest(latitude: Double, longitude: Double) -> Observable<AutoCompleteAddress>
-
-    #endif
 
 }
 
@@ -44,22 +30,6 @@ public final class DAWAService: NSObject, DAWAServiceType {
     public func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) {
         self.networkService.getNearestAddress(latitude: latitude, longitude: longitude, completionHandler: completionHandler)
     }
-
-    #if MustacheRx
-
-    public func choices(searchText: String) -> Observable<[AutoCompleteModel]> {
-        return self.networkService.getAutoCompleteChoices(searchText: searchText).asObservable()
-    }
-
-    public func address(href: String) -> Observable<AutoCompleteAddress> {
-        return self.networkService.getAddress(href: href).asObservable()
-    }
-
-    public func nearest(latitude: Double, longitude: Double) -> Observable<AutoCompleteAddress> {
-        return self.networkService.getNearestAddress(latitude: latitude, longitude: longitude).asObservable()
-    }
-
-    #endif
 
     public func clearState() {}
 

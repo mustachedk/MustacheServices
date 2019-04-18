@@ -6,13 +6,6 @@ public protocol NetworkServiceType: Service {
 
     func send<T: Decodable>(endpoint: Endpoint, using decoder: JSONDecoder, completionHandler: @escaping (Result<T, Error>) -> ()) -> URLSessionDataTask
 
-    #if MustacheRx
-
-    func send<T: Decodable>(endpoint: APIEndpoint) -> Single<T>
-
-    func send<T: Decodable>(endpoint: APIEndpoint, using decoder: JSONDecoder) -> Single<T>
-
-    #endif
 }
 
 public class NetworkService: NSObject, NetworkServiceType {
@@ -68,51 +61,6 @@ public class NetworkService: NSObject, NetworkServiceType {
 
         return task
     }
-
-    #if MustacheRx
-
-    public func send<T: Decodable>(endpoint: APIEndpoint) -> Single<T> {
-        return self.send(endpoint: endpoint, using: JSONDecoder())
-    }
-
-    public func send<T: Decodable>(endpoint: APIEndpoint, using decoder: JSONDecoder) -> Single<T> {
-
-        if let demoData = endpoint.demoData as? T { return Single<T>.just(demoData) }
-
-        return Single<T>.create { [weak self] observer in
-                    var request = endpoint.request()
-                    if let self = self, let token = self.credentialsService.token { request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization") }
-                    let task = URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
-
-                        guard let response = response as? HTTPURLResponse else {
-                            observer(.error(APIClientError.invalidResponseType))
-                            return
-                        }
-
-                        if response.statusCode >= 400 {
-                            observer(.error(APIClientError.unSuccessful(response.statusCode, error)))
-                            return
-                        }
-
-                        do {
-                            let model: T = try decoder.decode(T.self, from: data ?? Data())
-                            observer(.success(model))
-                        } catch let error {
-                            observer(.error(APIClientError.decodingError(error)))
-                        }
-
-                    }
-                    task.resume()
-
-                    return Disposables.create {
-                        task.cancel()
-                    }
-                }
-                .observeOn(MainScheduler.instance)
-
-    }
-
-    #endif
 
     public func clearState() {}
 }

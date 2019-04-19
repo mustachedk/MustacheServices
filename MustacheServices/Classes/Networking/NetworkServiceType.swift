@@ -42,12 +42,12 @@ public class NetworkService: NSObject, NetworkServiceType {
 
         let task = URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) -> Void in
             guard let response = response as? HTTPURLResponse else {
-                completionHandler(.failure(APIClientError.invalidResponseType))
+                completionHandler(.failure(NetworkServiceTypeError.invalidResponseType))
                 return
             }
 
             guard response.statusCode < 400 else {
-                completionHandler(.failure(APIClientError.unSuccessful(response.statusCode, error)))
+                completionHandler(.failure(NetworkServiceTypeError.unSuccessful(response.statusCode, error)))
                 return
             }
 
@@ -55,7 +55,7 @@ public class NetworkService: NSObject, NetworkServiceType {
                 let model: T = try decoder.decode(T.self, from: data ?? Data())
                 completionHandler(.success(model))
             } catch let error {
-                completionHandler(.failure(APIClientError.decodingError(error)))
+                completionHandler(.failure(NetworkServiceTypeError.decodingError(error)))
             }
         }
         task.resume()
@@ -66,8 +66,9 @@ public class NetworkService: NSObject, NetworkServiceType {
     public func clearState() {}
 }
 
-public enum APIClientError: Error {
+public enum NetworkServiceTypeError: Error {
     case decodingError(Error)
     case invalidResponseType
     case unSuccessful(Int, Error?)
 }
+

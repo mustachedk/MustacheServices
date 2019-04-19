@@ -2,11 +2,14 @@ import Foundation
 
 public protocol DAWAServiceType: Service {
 
-    func choices(searchText: String, completionHandler: @escaping (Result<[AutoCompleteModel], Error>) -> ())
+    @discardableResult
+    func choices(searchText: String, completionHandler: @escaping (Result<[AutoCompleteModel], Error>) -> ()) -> URLSessionDataTask
 
-    func address(href: String, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ())
+    @discardableResult
+    func address(href: String, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) -> URLSessionDataTask
 
-    func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ())
+    @discardableResult
+    func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) -> URLSessionDataTask
 
 }
 
@@ -19,16 +22,19 @@ public final class DAWAService: NSObject, DAWAServiceType {
         super.init()
     }
 
-    public func choices(searchText: String, completionHandler: @escaping (Result<[AutoCompleteModel], Error>) -> ()) {
-        self.networkService.getAutoCompleteChoices(searchText: searchText, completionHandler: completionHandler)
+    @discardableResult
+    public func choices(searchText: String, completionHandler: @escaping (Result<[AutoCompleteModel], Error>) -> ()) -> URLSessionDataTask {
+        return self.networkService.getAutoCompleteChoices(searchText: searchText, completionHandler: completionHandler)
     }
 
-    public func address(href: String, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) {
-        self.networkService.getAddress(href: href, completionHandler: completionHandler)
+    @discardableResult
+    public func address(href: String, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) -> URLSessionDataTask {
+        return self.networkService.getAddress(href: href, completionHandler: completionHandler)
     }
 
-    public func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) {
-        self.networkService.getNearestAddress(latitude: latitude, longitude: longitude, completionHandler: completionHandler)
+    @discardableResult
+    public func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) -> URLSessionDataTask {
+        return self.networkService.getNearestAddress(latitude: latitude, longitude: longitude, completionHandler: completionHandler)
     }
 
     public func clearState() {}

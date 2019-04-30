@@ -1,4 +1,3 @@
-
 import Foundation
 
 public protocol NetworkServiceType: Service {
@@ -31,9 +30,12 @@ public class NetworkService: NSObject, NetworkServiceType {
 
         var request = endpoint.request()
 
-        if let token = self.credentialsService.bearer {
+        if endpoint.authentication == .bearer, let token = self.credentialsService.bearer {
+
             request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        } else if let username = self.credentialsService.username, let password = self.credentialsService.password {
+
+        } else if endpoint.authentication == .basic, let username = self.credentialsService.username, let password = self.credentialsService.password {
+
             let raw = String(format: "%@:%@", username, password)
             let data = raw.data(using: .utf8)!
             let encoded = data.base64EncodedString()

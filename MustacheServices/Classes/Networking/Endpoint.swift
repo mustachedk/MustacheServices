@@ -1,4 +1,3 @@
-
 import Foundation
 
 public protocol Endpoint {
@@ -9,6 +8,7 @@ public protocol Endpoint {
     var parameters: [String: String]? { get }
     var body: Encodable? { get }
     var demoData: Decodable? { get }
+    var authentication: Authentication { get }
 }
 
 extension Endpoint {
@@ -16,9 +16,19 @@ extension Endpoint {
     var method: RequestType { return .get }
 
     var parameters: [String: String]? { return nil }
+
     var body: Encodable? { return nil }
+
     var demoData: Decodable? { return nil }
 
+    var authentication: Authentication { return .none }
+
+}
+
+public enum Authentication {
+    case none
+    case basic
+    case bearer
 }
 
 public extension Endpoint {

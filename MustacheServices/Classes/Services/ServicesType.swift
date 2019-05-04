@@ -26,14 +26,21 @@ public class Services: ServicesType {
 
     public func add<S: Service>(service: S.Type) throws {
         if services.contains(where: { existing -> Bool in return existing == service }) { throw ServicesTypeError.allReadyAdded(String(describing: S.self)) }
-        services.append(service)
+        if initiated.contains(where: { existing -> Bool in return type(of: existing) == service }) { throw ServicesTypeError.allReadyAdded(String(describing: S.self)) }
+        self.services.append(service)
+    }
+
+    public func add<S: Service>(service: S) throws {
+        if services.contains(where: { existing -> Bool in return existing == type(of: service) }) { throw ServicesTypeError.allReadyAdded(String(describing: S.self)) }
+        if initiated.contains(where: { existing -> Bool in return type(of: existing) == type(of: service) }) { throw ServicesTypeError.allReadyAdded(String(describing: S.self)) }
+        self.initiated.append(service)
     }
 
     public func get<S>() throws -> S {
-        if let instance = initiated.first(where: { existing -> Bool in return existing is S }) {
+        if let instance = self.initiated.first(where: { existing -> Bool in return existing is S }) {
             return instance as! S
         }
-        guard let constructor = services.first(where: { existing -> Bool in return existing is S }) else {
+        guard let constructor = self.services.first(where: { existing -> Bool in return existing is S }) else {
             throw ServicesTypeError.notFound(String(describing: S.self))
         }
 

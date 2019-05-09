@@ -1,4 +1,3 @@
-
 import UIKit
 
 public protocol CoordinatorType: NSObjectProtocol {
@@ -14,6 +13,14 @@ public protocol CoordinatorType: NSObjectProtocol {
 
     func end()
 
+}
+
+extension CoordinatorType {
+
+    func end() {
+        self.childCoordinators.forEach { type in type.end() }
+        self.childCoordinators.removeAll()
+    }
 }
 
 extension CoordinatorType where Self: Transitionable {

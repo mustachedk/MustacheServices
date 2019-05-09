@@ -17,7 +17,7 @@ public protocol CoordinatorType: NSObjectProtocol {
 
 extension CoordinatorType {
 
-    func end() {
+    public func end() {
         self.childCoordinators.forEach { type in type.end() }
         self.childCoordinators.removeAll()
     }

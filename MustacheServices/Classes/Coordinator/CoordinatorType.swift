@@ -20,12 +20,14 @@ extension CoordinatorType where Self: Transitionable {
 
     public func addChildCoordinator(_ childCoordinator: CoordinatorType) {
         childCoordinator.parentCoordinator = self
+        try! childCoordinator.start()
         self.childCoordinators.append(childCoordinator)
 
     }
 
     public func removeChildCoordinator(_ childCoordinator: CoordinatorType) {
         self.childCoordinators = self.childCoordinators.filter { $0 !== childCoordinator }
+        childCoordinator.end()
     }
 }
 

@@ -43,13 +43,13 @@ public class NetworkService: NSObject, NetworkServiceType {
         }
 
         let task = URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) -> Void in
-            guard let response = response as? HTTPURLResponse else {
-                completionHandler(.failure(NetworkServiceTypeError.invalidResponseType))
+            guard let urlResponse = response as? HTTPURLResponse else {
+                completionHandler(.failure(NetworkServiceTypeError.invalidResponseType(response, data)))
                 return
             }
 
-            guard response.statusCode < 400 else {
-                completionHandler(.failure(NetworkServiceTypeError.unSuccessful(response.statusCode, error)))
+            guard urlResponse.statusCode < 400 else {
+                completionHandler(.failure(NetworkServiceTypeError.unSuccessful(urlResponse, data, urlResponse.statusCode, error)))
                 return
             }
 
@@ -57,7 +57,7 @@ public class NetworkService: NSObject, NetworkServiceType {
                 let model: T = try decoder.decode(T.self, from: data ?? Data())
                 completionHandler(.success(model))
             } catch let error {
-                completionHandler(.failure(NetworkServiceTypeError.decodingError(error)))
+                completionHandler(.failure(NetworkServiceTypeError.decodingError(urlResponse, data, error)))
             }
         }
         task.resume()
@@ -69,8 +69,8 @@ public class NetworkService: NSObject, NetworkServiceType {
 }
 
 public enum NetworkServiceTypeError: Error {
-    case decodingError(Error)
-    case invalidResponseType
-    case unSuccessful(Int, Error?)
+    case decodingError(URLResponse?, Data?, Error)
+    case invalidResponseType(URLResponse?, Data?)
+    case unSuccessful(URLResponse?, Data?, Int, Error?)
 }
 

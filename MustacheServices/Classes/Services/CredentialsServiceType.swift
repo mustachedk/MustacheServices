@@ -8,6 +8,10 @@ public protocol CredentialsServiceType: Service {
 
     var bearer: String? { get set }
 
+    var accessToken: String? { get set }
+
+    var refreshToken: String? { get set }
+
     var username: String? { get set }
 
     var password: String? { get set }
@@ -19,6 +23,16 @@ public class CredentialsService: NSObject, CredentialsServiceType {
     public var IsLoggedIn: Bool { return self.bearer != nil }
 
     public var bearer: String? {
+        get { return KeychainWrapper.standard.string(forKey: #function) }
+        set { if let value = newValue { KeychainWrapper.standard.set(value, forKey: #function) } else { KeychainWrapper.standard.removeObject(forKey: #function) } }
+    }
+
+    public var accessToken: String? {
+        get { return KeychainWrapper.standard.string(forKey: #function) }
+        set { if let value = newValue { KeychainWrapper.standard.set(value, forKey: #function) } else { KeychainWrapper.standard.removeObject(forKey: #function) } }
+    }
+
+    public var refreshToken: String? {
         get { return KeychainWrapper.standard.string(forKey: #function) }
         set { if let value = newValue { KeychainWrapper.standard.set(value, forKey: #function) } else { KeychainWrapper.standard.removeObject(forKey: #function) } }
     }

@@ -1,4 +1,3 @@
-
 import Foundation
 
 public protocol Service: NSObjectProtocol {
@@ -25,22 +24,42 @@ public class Services: ServicesType {
     public init() {}
 
     public func add<S: Service>(service: S.Type) throws {
-        if services.contains(where: { existing -> Bool in return existing == service }) { throw ServicesTypeError.allReadyAdded(String(describing: S.self)) }
-        if initiated.contains(where: { existing -> Bool in return type(of: existing) == service }) { throw ServicesTypeError.allReadyAdded(String(describing: S.self)) }
+        if services.contains(where: { existing -> Bool in
+            return existing.self == S.self
+        }) {
+            throw ServicesTypeError.allReadyAdded(String(describing: S.self))
+        }
+        if initiated.contains(where: { existing -> Bool in
+            return (existing as? S) != nil
+        }) {
+            throw ServicesTypeError.allReadyAdded(String(describing: S.self))
+        }
         self.services.append(service)
     }
 
     public func add<S: Service>(service: S) throws {
-        if services.contains(where: { existing -> Bool in return existing == type(of: service) }) { throw ServicesTypeError.allReadyAdded(String(describing: S.self)) }
-        if initiated.contains(where: { existing -> Bool in return type(of: existing) == type(of: service) }) { throw ServicesTypeError.allReadyAdded(String(describing: S.self)) }
+        if services.contains(where: { existing -> Bool in
+            return existing.self == S.self
+        }) {
+            throw ServicesTypeError.allReadyAdded(String(describing: S.self))
+        }
+        if initiated.contains(where: { existing -> Bool in
+            return (existing as? S) != nil
+        }) {
+            throw ServicesTypeError.allReadyAdded(String(describing: S.self))
+        }
         self.initiated.append(service)
     }
 
     public func get<S>() throws -> S {
-        if let instance = self.initiated.first(where: { existing -> Bool in return existing is S }) {
+        if let instance = self.initiated.first(where: { existing -> Bool in
+            return (existing as? S) != nil
+        }) {
             return instance as! S
         }
-        guard let constructor = self.services.first(where: { existing -> Bool in return existing is S }) else {
+        guard let constructor = self.services.first(where: { existing -> Bool in
+            return (existing as? S) != nil
+        }) else {
             throw ServicesTypeError.notFound(String(describing: S.self))
         }
 

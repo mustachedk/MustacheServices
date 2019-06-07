@@ -10,6 +10,9 @@ public protocol DAWAServiceType: Service {
 
     @discardableResult
     func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) -> URLSessionDataTask
+    
+    @discardableResult
+    func zip(searchText: String, completion: @escaping (Result<[ZipAutoCompleteModel], Error>) -> ()) -> URLSessionDataTask
 
 }
 
@@ -35,6 +38,11 @@ public final class DAWAService: NSObject, DAWAServiceType {
     @discardableResult
     public func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) -> URLSessionDataTask {
         return self.networkService.getNearestAddress(latitude: latitude, longitude: longitude, completionHandler: completionHandler)
+    }
+    
+    @discardableResult
+    public func zip(searchText: String, completion: @escaping (Result<[ZipAutoCompleteModel], Error>) -> ()) -> URLSessionDataTask {
+        return self.networkService.getAutoCompleteZip(searchText: searchText, completion: completion)
     }
 
     public func clearState() {}

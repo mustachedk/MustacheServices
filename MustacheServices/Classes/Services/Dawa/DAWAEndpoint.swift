@@ -5,6 +5,7 @@ public enum DAWAEndpoint {
     case get(searchText: String)
     case getAddress(href: String)
     case nearest(latitude: Double, longitude: Double)
+    case getZip(searchText: String)
 
 }
 
@@ -19,6 +20,7 @@ extension DAWAEndpoint: Endpoint {
             case .get: return "/autocomplete"
             case .getAddress(let href): return "\(URL(string: href)!.path)"
             case .nearest: return "/adgangsadresser/reverse"
+            case .getZip(let search): return "/postnumre/autocomplete"
         }
     }
 
@@ -28,6 +30,8 @@ extension DAWAEndpoint: Endpoint {
                 return ["q": searchText, "type": "adgangsadresse", "fuzzy": "true"]
             case .nearest(let latitude, let longitude):
                 return ["x": "\(longitude)", "y": "\(latitude)"]
+            case .getZip(let searchText):
+                return ["q": searchText]
             default:
                 return nil
         }
@@ -58,4 +62,9 @@ extension NetworkServiceType {
         return self.send(endpoint: endpoint, completionHandler: completionHandler)
     }
 
+    @discardableResult
+    public func getAutoCompleteZip(searchText: String, completion: @escaping (Result<[ZipAutoCompleteModel], Error>) -> ()) -> URLSessionDataTask {
+        let endpoint = DAWAEndpoint.getZip(searchText: searchText)
+        return self.send(endpoint: endpoint, completionHandler: completion)
+    }
 }

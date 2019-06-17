@@ -63,8 +63,8 @@ extension NetworkServiceType {
     }
 
     @discardableResult
-    public func getAutoCompleteZip(searchText: String, completion: @escaping (Result<[ZipAutoCompleteModel], Error>) -> ()) -> URLSessionDataTask {
+    public func getAutoCompleteZip(searchText: String, completionHandler: @escaping (Result<[ZipAutoCompleteModel], Error>) -> ()) -> URLSessionDataTask {
         let endpoint = DAWAEndpoint.getZip(searchText: searchText)
-        return self.send(endpoint: endpoint, completionHandler: completion)
+        return self.send(endpoint: endpoint, completionHandler: completionHandler)
     }
 }

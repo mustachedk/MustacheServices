@@ -51,6 +51,8 @@ public class CredentialsService: NSObject, CredentialsServiceType {
 
     public func clearState() {
         self.bearer = nil
+        self.accessToken = nil
+        self.refreshToken = nil
         self.username = nil
         self.password = nil
     }

@@ -17,6 +17,8 @@ public protocol Endpoint {
     var demoData: Decodable? { get }
 
     var authentication: Authentication { get }
+    
+    var urlEncoding: [String: String]? { get }
 }
 
 public extension Endpoint {
@@ -33,6 +35,7 @@ public extension Endpoint {
 
     var authentication: Authentication { return .none }
 
+    var urlEncoding: [String: String]? { return nil }
 }
 
 public enum Authentication {
@@ -71,7 +74,19 @@ public extension Endpoint {
             let encoder = JSONEncoder()
             guard let data = try? encoder.encode(wrapper) else { fatalError("Unable to encode body \(body)") }
             request.httpBody = data
+        } else if let urlEncoding = self.urlEncoding {
+            let arrayDict = Array(urlEncoding)
+            if arrayDict.count > 0 {
+                let data = NSMutableData(data: "\(arrayDict.first!.key)=\(arrayDict.first!.value)".data(using: String.Encoding.utf8)!)
+                if arrayDict.count > 1 {
+                    for dict in arrayDict.dropFirst() {
+                        data.append("&\(dict.key)=\(dict.value)".data(using: String.Encoding.utf8)!)
+                    }
+                }
+                request.httpBody = data as Data
+            }
         }
+        
         return request
     }
 

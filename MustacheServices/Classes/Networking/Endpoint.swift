@@ -69,7 +69,9 @@ public extension Endpoint {
             request.addValue(value, forHTTPHeaderField: key)
         }
 
-        if let body = self.body {
+        if let body = self.body as? Data {
+            request.httpBody = body
+        } else if let body = self.body {
             let wrapper = EncodableWrapper(body)
             let encoder = JSONEncoder()
             guard let data = try? encoder.encode(wrapper) else { fatalError("Unable to encode body \(body)") }

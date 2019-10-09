@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MustacheServices
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
+        _ = MustacheCrashReporting.shared
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+            let array = NSArray()
+            let pointee = array.object(at: 99)
+        }
+
         return true
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "MustacheServices",
-  "version": "0.1.0",
+  "version": "0.4.0",
   "summary": "Helper methods used at Mustache when creating new apps.",
   "homepage": "https://github.com/mustachedk/MustacheServices",
   "license": {
@@ -12,9 +12,9 @@
   },
   "source": {
     "git": "https://github.com/mustachedk/MustacheServices.git",
-    "tag": "0.1.0"
+    "tag": "0.4.0"
   },
-  "swift_version": "5.0",
+  "swift_versions": "5.0",
   "platforms": {
     "ios": "11.0"
   },
@@ -23,6 +23,11 @@
   "dependencies": {
     "SwiftKeychainWrapper": [
 
+    ],
+    "KSCrash": [
+
     ]
-  }
+  },
+  "static_framework": true,
+  "swift_version": "5.0"
 }

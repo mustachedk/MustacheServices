@@ -47,6 +47,6 @@ public extension Transition {
 
 public protocol Transitionable: NSObjectProtocol {
 
-    func transition(to transition: Transition)
+    func transition(to transition: Transition) throws
 
 }

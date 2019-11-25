@@ -10,7 +10,7 @@ let package = Package(
     .library(name: "MustacheServices", targets: ["MustacheServices"]),
   ],
   dependencies: [
-    .package(url: "https://github.com/ralcr/SwiftKeychainWrapper.git", .commit("c746065")),
+    .package(url: "https://github.com/ralcr/SwiftKeychainWrapper.git", .revision("c746065")),
  ],
   targets: [
     .target(name: "MustacheServices", dependencies: ["SwiftKeychainWrapper"])

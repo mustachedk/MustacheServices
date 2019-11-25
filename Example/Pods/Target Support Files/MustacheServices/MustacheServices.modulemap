@@ -1,6 +1,0 @@
-framework module MustacheServices {
-  umbrella header "MustacheServices-umbrella.h"
-
-  export *
-  module * { export * }
-}

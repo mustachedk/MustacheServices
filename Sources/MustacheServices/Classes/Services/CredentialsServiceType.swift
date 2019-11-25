@@ -1,6 +1,5 @@
 
 import Foundation
-import SwiftKeychainWrapper
 
 public protocol CredentialsServiceType: Service {
 

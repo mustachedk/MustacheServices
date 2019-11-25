@@ -1,6 +1,7 @@
 
 import Foundation
 import UserNotifications
+import UIKit
 
 public protocol NotificationServiceType: Service {
 

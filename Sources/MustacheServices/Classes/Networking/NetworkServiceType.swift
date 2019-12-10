@@ -57,7 +57,11 @@ public class NetworkService: NSObject, NetworkServiceType {
                 let model: T = try decoder.decode(T.self, from: data ?? Data())
                 completionHandler(.success(model))
             } catch let error {
-                completionHandler(.failure(NetworkServiceTypeError.decodingError(urlResponse, data, error)))
+                if type(of: T.self) == EmptyReply.self {
+                    completionHandler(.success(EmptyReply() as! T))
+                } else {
+                    completionHandler(.failure(NetworkServiceTypeError.decodingError(urlResponse, data, error)))
+                }
             }
         }
         task.resume()

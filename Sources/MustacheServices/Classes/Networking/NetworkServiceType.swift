@@ -48,6 +48,22 @@ public class NetworkService: NSObject, NetworkServiceType {
                 return
             }
 
+            guard urlResponse.statusCode != 204 else {
+                completionHandler(.success(EmptyReply() as! T))
+            }
+
+            if #available(iOS 13.0, *) {
+                guard urlResponse.value(forHTTPHeaderField: "Content-Type") != "application/text", let data = data else {
+                    let string = String(data: data, encoding: .utf8)
+                    completionHandler(.success(StringReply(string: string) as! T))
+                }
+                guard urlResponse.value(forHTTPHeaderField: "Content-Type") == "application/json" else {
+                    completionHandler(.success(EmptyReply() as! T))
+                }
+            } else {
+
+            }
+
             guard urlResponse.statusCode < 400 else {
                 completionHandler(.failure(NetworkServiceTypeError.unSuccessful(urlResponse, data, urlResponse.statusCode, error)))
                 return

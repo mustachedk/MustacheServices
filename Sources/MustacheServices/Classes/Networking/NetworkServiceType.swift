@@ -53,10 +53,10 @@ public class NetworkService: NSObject, NetworkServiceType {
             }
 
             if #available(iOS 13.0, *) {
-                guard urlResponse.value(forHTTPHeaderField: "Content-Type") != "application/text", let data = data else {
-                    let string = String(data: data, encoding: .utf8)
-                    completionHandler(.success(StringReply(string: string) as! T))
-                }
+                // guard urlResponse.value(forHTTPHeaderField: "Content-Type") != "application/text", let data = data else {
+                //     let string = String(data: data, encoding: .utf8)
+                //     completionHandler(.success(StringReply(string: string) as! T))
+                // }
                 guard urlResponse.value(forHTTPHeaderField: "Content-Type") == "application/json" else {
                     completionHandler(.success(EmptyReply() as! T))
                 }
@@ -93,4 +93,3 @@ public enum NetworkServiceTypeError: Error {
     case invalidResponseType(URLResponse?, Data?)
     case unSuccessful(URLResponse?, Data?, Int, Error?)
 }
-

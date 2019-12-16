@@ -50,6 +50,7 @@ public class NetworkService: NSObject, NetworkServiceType {
 
             guard urlResponse.statusCode != 204 else {
                 completionHandler(.success(EmptyReply() as! T))
+                return
             }
 
             if #available(iOS 13.0, *) {
@@ -59,6 +60,7 @@ public class NetworkService: NSObject, NetworkServiceType {
                 // }
                 guard urlResponse.value(forHTTPHeaderField: "Content-Type") == "application/json" else {
                     completionHandler(.success(EmptyReply() as! T))
+                    return
                 }
             } else {
 

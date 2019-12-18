@@ -58,7 +58,7 @@ public class NetworkService: NSObject, NetworkServiceType {
                 //     let string = String(data: data, encoding: .utf8)
                 //     completionHandler(.success(StringReply(string: string) as! T))
                 // }
-                guard urlResponse.value(forHTTPHeaderField: "Content-Type") == "application/json" else {
+                guard urlResponse.value(forHTTPHeaderField: "Content-Type").contains("application/json") else {
                     completionHandler(.success(EmptyReply() as! T))
                     return
                 }

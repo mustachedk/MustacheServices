@@ -59,7 +59,7 @@ public class NetworkService: NSObject, NetworkServiceType {
                 //     completionHandler(.success(StringReply(string: string) as! T))
                 // }
                 guard (urlResponse.value(forHTTPHeaderField: "Content-Type")?.contains("application/json")) ?? true else {
-                    completionHandler(.failure(NetworkServiceTypeError.decodingError(urlResponse, data, error)))
+                    completionHandler(.failure(NetworkServiceTypeError.invalidResponseType(urlResponse, data)))
                     return
                 }
             } else {

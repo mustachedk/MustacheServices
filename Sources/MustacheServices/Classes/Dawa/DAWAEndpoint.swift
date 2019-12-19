@@ -20,7 +20,7 @@ extension DAWAEndpoint: Endpoint {
             case .get: return "/autocomplete"
             case .getAddress(let href): return "\(URL(string: href)!.path)"
             case .nearest: return "/adgangsadresser/reverse"
-            case .getZip(let search): return "/postnumre/autocomplete"
+            case .getZip: return "/postnumre/autocomplete"
         }
     }
 

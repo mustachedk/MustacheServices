@@ -1,6 +1,7 @@
 import Foundation
+import Resolver
 
-public protocol NetworkServiceType: Service {
+public protocol NetworkServiceType {
 
     func send<T: Decodable>(endpoint: Endpoint, completionHandler: @escaping (Result<T, Error>) -> ()) -> URLSessionDataTask
 
@@ -8,14 +9,10 @@ public protocol NetworkServiceType: Service {
 
 }
 
-public class NetworkService: NSObject, NetworkServiceType {
+public class NetworkService: NetworkServiceType {
 
-    fileprivate let credentialsService: CredentialsServiceType
-
-    required public init(services: Services) throws {
-        self.credentialsService = try services.get()
-        super.init()
-    }
+    @Injected
+    fileprivate var credentialsService: CredentialsServiceType
 
     public func send<T: Decodable>(endpoint: Endpoint, completionHandler: @escaping (Result<T, Error>) -> ()) -> URLSessionDataTask {
         return self.send(endpoint: endpoint, using: JSONDecoder(), completionHandler: completionHandler)
@@ -58,8 +55,8 @@ public class NetworkService: NSObject, NetworkServiceType {
                 //     let string = String(data: data, encoding: .utf8)
                 //     completionHandler(.success(StringReply(string: string) as! T))
                 // }
-                guard (urlResponse.value(forHTTPHeaderField: "Content-Type")?.contains("application/json")) ?? true else {
-                    completionHandler(.failure(NetworkServiceTypeError.invalidResponseType(urlResponse, data)))
+                guard urlResponse.value(forHTTPHeaderField: "Content-Type") == "application/json" else {
+                    completionHandler(.success(EmptyReply() as! T))
                     return
                 }
             } else {

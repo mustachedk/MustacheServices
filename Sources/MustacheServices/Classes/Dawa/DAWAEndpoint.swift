@@ -13,8 +13,6 @@ extension DAWAEndpoint: Endpoint {
 
     public var baseURL: URL { return URL(string: "https://dawa.aws.dk")! }
 
-    public var method: RequestType { return .get }
-
     public var path: String {
         switch self {
             case .get: return "/autocomplete"
@@ -36,10 +34,6 @@ extension DAWAEndpoint: Endpoint {
                 return nil
         }
     }
-
-    public var body: Encodable? { return nil }
-
-    public var demoData: Decodable? { return nil }
 }
 
 extension NetworkServiceType {

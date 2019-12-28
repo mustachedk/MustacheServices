@@ -9,7 +9,10 @@ let package = Package(
   products: [
     .library(name: "MustacheServices", targets: ["MustacheServices"]),
   ],
+  dependencies: [
+     .package(url: "https://github.com/hmlongco/Resolver.git", .upToNextMajor(from: "1.1.1")),
+  ],
   targets: [
-    .target(name: "MustacheServices")
+    .target(name: "MustacheServices",dependencies: ["Resolver"])
   ]
 )

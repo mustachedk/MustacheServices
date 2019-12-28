@@ -1,6 +1,7 @@
 import Foundation
+import Resolver
 
-public protocol DAWAServiceType: Service {
+public protocol DAWAServiceType {
 
     @discardableResult
     func choices(searchText: String, completionHandler: @escaping (Result<[AutoCompleteModel], Error>) -> ()) -> URLSessionDataTask
@@ -16,14 +17,12 @@ public protocol DAWAServiceType: Service {
 
 }
 
-public final class DAWAService: NSObject, DAWAServiceType {
+public final class DAWAService: DAWAServiceType {
 
-    fileprivate let networkService: NetworkServiceType
+    @Injected
+    fileprivate var networkService: NetworkServiceType
 
-    required public init(services: Services) throws {
-        self.networkService = try services.get()
-        super.init()
-    }
+    public init() {}
 
     @discardableResult
     public func choices(searchText: String, completionHandler: @escaping (Result<[AutoCompleteModel], Error>) -> ()) -> URLSessionDataTask {
@@ -44,7 +43,5 @@ public final class DAWAService: NSObject, DAWAServiceType {
     public func zip(searchText: String, completionHandler: @escaping (Result<[ZipAutoCompleteModel], Error>) -> ()) -> URLSessionDataTask {
         return self.networkService.getAutoCompleteZip(searchText: searchText, completionHandler: completionHandler)
     }
-
-    public func clearState() {}
 
 }

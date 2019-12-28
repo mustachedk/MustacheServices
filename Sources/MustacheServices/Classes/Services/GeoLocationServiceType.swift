@@ -10,7 +10,7 @@ public protocol GeoLocationServiceTypeDelegate: NSObjectProtocol {
     func location(location: CLLocation)
 }
 
-public protocol GeoLocationServiceType: Service {
+public protocol GeoLocationServiceType {
 
     var delegate: GeoLocationServiceTypeDelegate? { get set }
 
@@ -26,7 +26,7 @@ public class GeoLocationService: NSObject, GeoLocationServiceType, CLLocationMan
 
     fileprivate let locationManager = CLLocationManager()
 
-    required public init(services: Services) throws {
+    public override init() {
         super.init()
         self.locationManager.distanceFilter = kCLDistanceFilterNone
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
@@ -44,5 +44,4 @@ public class GeoLocationService: NSObject, GeoLocationServiceType, CLLocationMan
         self.delegate?.authorized(result: status == .authorizedWhenInUse || status == .authorizedAlways)
     }
 
-    public func clearState() {}
 }

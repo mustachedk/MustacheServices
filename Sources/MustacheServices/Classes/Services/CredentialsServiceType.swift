@@ -1,7 +1,7 @@
 
 import Foundation
 
-public protocol CredentialsServiceType {
+public protocol CredentialsServiceType: class {
 
     var username: String? { get set }
 

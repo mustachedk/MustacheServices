@@ -3,7 +3,7 @@ import Foundation
 import UserNotifications
 import UIKit
 
-public protocol NotificationServiceType {
+public protocol NotificationServiceType: class {
 
     func registerForPushNotifications(completionHandler: @escaping (Bool, Error?) -> Void)
 

@@ -39,25 +39,25 @@ extension DAWAEndpoint: Endpoint {
 extension NetworkServiceType {
 
     @discardableResult
-    public func getAutoCompleteChoices(searchText: String, completionHandler: @escaping (Result<[AutoCompleteModel], Error>) -> ()) -> URLSessionDataTask {
+    public func getAutoCompleteChoices(searchText: String, completionHandler: @escaping (Result<[DAWAAddressSuggestion], Error>) -> ()) -> URLSessionDataTask {
         let endpoint = DAWAEndpoint.get(searchText: searchText)
         return self.send(endpoint: endpoint, completionHandler: completionHandler)
     }
 
     @discardableResult
-    public func getAddress(href: String, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) -> URLSessionDataTask {
+    public func getAddress(href: String, completionHandler: @escaping (Result<DAWAAddressSuggestion, Error>) -> ()) -> URLSessionDataTask {
         let endpoint = DAWAEndpoint.getAddress(href: href)
         return self.send(endpoint: endpoint, completionHandler: completionHandler)
     }
 
     @discardableResult
-    public func getNearestAddress(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) -> URLSessionDataTask {
+    public func getNearestAddress(latitude: Double, longitude: Double, completionHandler: @escaping (Result<DAWAAddressSuggestion, Error>) -> ()) -> URLSessionDataTask {
         let endpoint = DAWAEndpoint.nearest(latitude: latitude, longitude: longitude)
         return self.send(endpoint: endpoint, completionHandler: completionHandler)
     }
 
     @discardableResult
-    public func getAutoCompleteZip(searchText: String, completionHandler: @escaping (Result<[ZipAutoCompleteModel], Error>) -> ()) -> URLSessionDataTask {
+    public func getAutoCompleteZip(searchText: String, completionHandler: @escaping (Result<[DAWAZipSuggestion], Error>) -> ()) -> URLSessionDataTask {
         let endpoint = DAWAEndpoint.getZip(searchText: searchText)
         return self.send(endpoint: endpoint, completionHandler: completionHandler)
     }

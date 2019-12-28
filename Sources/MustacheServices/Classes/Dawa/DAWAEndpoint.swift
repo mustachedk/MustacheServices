@@ -45,13 +45,13 @@ extension NetworkServiceType {
     }
 
     @discardableResult
-    public func getAddress(href: String, completionHandler: @escaping (Result<DAWAAddressSuggestion, Error>) -> ()) -> URLSessionDataTask {
+    public func getAddress(href: String, completionHandler: @escaping (Result<DAWAAddress, Error>) -> ()) -> URLSessionDataTask {
         let endpoint = DAWAEndpoint.getAddress(href: href)
         return self.send(endpoint: endpoint, completionHandler: completionHandler)
     }
 
     @discardableResult
-    public func getNearestAddress(latitude: Double, longitude: Double, completionHandler: @escaping (Result<DAWAAddressSuggestion, Error>) -> ()) -> URLSessionDataTask {
+    public func getNearestAddress(latitude: Double, longitude: Double, completionHandler: @escaping (Result<DAWAAddress, Error>) -> ()) -> URLSessionDataTask {
         let endpoint = DAWAEndpoint.nearest(latitude: latitude, longitude: longitude)
         return self.send(endpoint: endpoint, completionHandler: completionHandler)
     }

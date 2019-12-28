@@ -7,10 +7,10 @@ public protocol DAWAServiceType: class {
     func choices(searchText: String, completionHandler: @escaping (Result<[DAWAAddressSuggestion], Error>) -> ()) -> URLSessionDataTask
 
     @discardableResult
-    func address(href: String, completionHandler: @escaping (Result<DAWAAddressSuggestion, Error>) -> ()) -> URLSessionDataTask
+    func address(href: String, completionHandler: @escaping (Result<DAWAAddress, Error>) -> ()) -> URLSessionDataTask
 
     @discardableResult
-    func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<DAWAAddressSuggestion, Error>) -> ()) -> URLSessionDataTask
+    func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<DAWAAddress, Error>) -> ()) -> URLSessionDataTask
     
     @discardableResult
     func zip(searchText: String, completionHandler: @escaping (Result<[DAWAZipSuggestion], Error>) -> ()) -> URLSessionDataTask
@@ -30,12 +30,12 @@ public final class DAWAService: DAWAServiceType {
     }
 
     @discardableResult
-    public func address(href: String, completionHandler: @escaping (Result<DAWAAddressSuggestion, Error>) -> ()) -> URLSessionDataTask {
+    public func address(href: String, completionHandler: @escaping (Result<DAWAAddress, Error>) -> ()) -> URLSessionDataTask {
         return self.networkService.getAddress(href: href, completionHandler: completionHandler)
     }
 
     @discardableResult
-    public func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<DAWAAddressSuggestion, Error>) -> ()) -> URLSessionDataTask {
+    public func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<DAWAAddress, Error>) -> ()) -> URLSessionDataTask {
         return self.networkService.getNearestAddress(latitude: latitude, longitude: longitude, completionHandler: completionHandler)
     }
     

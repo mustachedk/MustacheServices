@@ -1,7 +1,7 @@
 
 import Foundation
 
-public struct AutoCompleteAddress: Decodable {
+public struct DAWAAddress: Decodable {
 
     public var road: String = ""
     public var roadNumber: String = ""

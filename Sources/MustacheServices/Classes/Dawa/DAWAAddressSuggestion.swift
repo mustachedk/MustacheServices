@@ -1,9 +1,9 @@
 
 import Foundation
 
-public struct AutoCompleteModel: Decodable {
+public struct DAWAAddressSuggestion: Decodable {
 
-    public let type: AutoCompleteType
+    public let type: DAWAAddressSuggestionType
     public let tekst: String
     public let forslagsTekst: String
     public let caretPosition: Int
@@ -24,7 +24,7 @@ public struct AutoCompleteModel: Decodable {
     public init(from decoder: Decoder) throws {
 
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        self.type = try values.decode(AutoCompleteType.self, forKey: .type)
+        self.type = try values.decode(DAWAAddressSuggestionType.self, forKey: .type)
         self.tekst = try values.decode(String.self, forKey: .tekst)
         self.forslagsTekst = try values.decode(String.self, forKey: .forslagsTekst)
         self.caretPosition = try values.decode(Int.self, forKey: .caretPosition)
@@ -32,5 +32,14 @@ public struct AutoCompleteModel: Decodable {
         let dataInfo = try values.nestedContainer(keyedBy: DataKeys.self, forKey: .data)
         self.href = try dataInfo.decode(String.self, forKey: .href)
 
+    }
+    
+    /*
+     Forskellen på en adresse og en adgangsadresse er at adressen rummer eventuel etage- og/eller dørbetegnelse.
+     Det gør adgangsadressen ikke.
+     */
+    
+    public enum DAWAAddressSuggestionType: String, Codable {
+        case vejnavn, adgangsadresse, adresse
     }
 }

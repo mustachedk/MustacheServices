@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ZipAutoCompleteModel: Decodable {
+public struct DAWAZipSuggestion: Decodable {
     
     public let tekst: String
     public let nr: String

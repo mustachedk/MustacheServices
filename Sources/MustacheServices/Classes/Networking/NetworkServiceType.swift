@@ -63,7 +63,7 @@ public class NetworkService: NetworkServiceType {
 
             }
 
-            guard urlResponse.statusCode < 400 else {
+            guard urlResponse.statusCode <= 400 else {
                 completionHandler(.failure(NetworkServiceTypeError.unSuccessful(urlResponse, data, urlResponse.statusCode, error)))
                 return
             }

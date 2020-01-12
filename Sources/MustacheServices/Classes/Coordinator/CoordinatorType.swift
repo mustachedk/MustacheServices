@@ -12,7 +12,7 @@ public protocol CoordinatorType: NSObjectProtocol {
 
 }
 
-extension CoordinatorType {
+public extension CoordinatorType {
     
     func stop() throws { }
     

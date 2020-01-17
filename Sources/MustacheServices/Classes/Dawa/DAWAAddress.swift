@@ -47,7 +47,7 @@ public struct DAWAAddress: Decodable {
 
         let adgangspunktInfo = try values.nestedContainer(keyedBy: AdgangspunktKeys.self, forKey: .adgangspunkt)
         let coordinates = try adgangspunktInfo.decode([Double].self, forKey: .koordinater)
-        self.latitude = coordinates[0]
-        self.longitude = coordinates[1]
+        self.latitude = coordinates[1]
+        self.longitude = coordinates[0]
     }
 }

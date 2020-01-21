@@ -1,8 +1,8 @@
 import Foundation
 
 public enum DAWAEndpoint {
-
-    case get(searchText: String)
+    
+    case get(searchText: String, type: AutoCompleteType)
     case getAddress(href: String)
     case nearest(latitude: Double, longitude: Double)
     case getZip(searchText: String)
@@ -26,8 +26,8 @@ extension DAWAEndpoint: Endpoint {
 
     public var parameters: [String: String]? {
         switch self {
-            case .get(let searchText):
-                return ["q": searchText, "type": "adgangsadresse", "fuzzy": "true"]
+            case .get(let searchText, let type):
+                return ["q": searchText, "type": type, "fuzzy": "true"]
             case .nearest(let latitude, let longitude):
                 return ["x": "\(longitude)", "y": "\(latitude)"]
             case .getZip(let searchText):

@@ -123,8 +123,8 @@ public struct DAWAAdresse: DAWAAddressProtol, Decodable {
     public init(from decoder: Decoder) throws {
 
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        self.floor = try values.decode(String.self, forKey: .floor)
-        self.door = try values.decode(String.self, forKey: .door)
+        self.floor = try? values.decode(String.self, forKey: .floor)
+        self.door = try? values.decode(String.self, forKey: .door)
 
         let accessAddressInfo = try values.nestedContainer(keyedBy: CodingKeys.AccessAddressKeys.self, forKey: .accessAddress)
         let roadInfo = try accessAddressInfo.nestedContainer(keyedBy: CodingKeys.AccessAddressKeys.VejstykkeKeys.self, forKey: .road)

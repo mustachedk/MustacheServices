@@ -27,7 +27,7 @@ extension DAWAEndpoint: Endpoint {
     public var parameters: [String: String]? {
         switch self {
             case .get(let searchText, let type):
-                return ["q": searchText, "type": type.rawValue, "fuzzy": "true"]
+                return ["q": searchText, "type": type.rawValue, "fuzzy": "true", "startfra": "adgangsadresse"]
             case .nearest(let latitude, let longitude, _):
                 return ["x": "\(longitude)", "y": "\(latitude)"]
             case .getZip(let searchText):

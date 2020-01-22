@@ -3,6 +3,7 @@ import Foundation
 
 public struct AutoCompleteModel: Decodable {
 
+    public let id: String?
     public let type: AutoCompleteType
     public let tekst: String
     public let forslagsTekst: String
@@ -18,6 +19,7 @@ public struct AutoCompleteModel: Decodable {
     }
 
     enum DataKeys: String, CodingKey {
+        case id
         case href
     }
 
@@ -30,6 +32,7 @@ public struct AutoCompleteModel: Decodable {
         self.caretPosition = try values.decode(Int.self, forKey: .caretPosition)
 
         let dataInfo = try values.nestedContainer(keyedBy: DataKeys.self, forKey: .data)
+        self.id = try? dataInfo.decode(String.self, forKey: .id)
         self.href = try dataInfo.decode(String.self, forKey: .href)
 
     }

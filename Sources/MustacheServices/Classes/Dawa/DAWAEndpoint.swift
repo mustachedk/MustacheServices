@@ -1,10 +1,10 @@
 import Foundation
 
 public enum DAWAEndpoint {
-    
+
     case get(searchText: String, type: AutoCompleteType)
-    case getAddress(href: String)
-    case nearest(latitude: Double, longitude: Double)
+    case getAddress(href: String, type: AutoCompleteType)
+    case nearest(latitude: Double, longitude: Double, type: AutoCompleteType)
     case getZip(searchText: String)
 
 }
@@ -18,8 +18,8 @@ extension DAWAEndpoint: Endpoint {
     public var path: String {
         switch self {
             case .get: return "/autocomplete"
-            case .getAddress(let href): return "\(URL(string: href)!.path)"
-            case .nearest: return "/adgangsadresser/reverse"
+            case .getAddress(let href, let type): return "/\(type.rawValue)r/\(href)"
+            case .nearest(_, _, let type): return "/\(type)r/reverse"
             case .getZip: return "/postnumre/autocomplete"
         }
     }
@@ -27,8 +27,8 @@ extension DAWAEndpoint: Endpoint {
     public var parameters: [String: String]? {
         switch self {
             case .get(let searchText, let type):
-                return ["q": searchText, "type": type, "fuzzy": "true"]
-            case .nearest(let latitude, let longitude):
+                return ["q": searchText, "type": type.rawValue, "fuzzy": "true"]
+            case .nearest(let latitude, let longitude, _):
                 return ["x": "\(longitude)", "y": "\(latitude)"]
             case .getZip(let searchText):
                 return ["q": searchText]
@@ -45,21 +45,56 @@ extension DAWAEndpoint: Endpoint {
 extension NetworkServiceType {
 
     @discardableResult
-    public func getAutoCompleteChoices(searchText: String, completionHandler: @escaping (Result<[AutoCompleteModel], Error>) -> ()) -> URLSessionDataTask {
-        let endpoint = DAWAEndpoint.get(searchText: searchText)
+    public func getAutoCompleteChoices(searchText: String, type: AutoCompleteType, completionHandler: @escaping (Result<[AutoCompleteModel], Error>) -> ()) -> URLSessionDataTask {
+        let endpoint = DAWAEndpoint.get(searchText: searchText, type: type)
         return self.send(endpoint: endpoint, completionHandler: completionHandler)
     }
 
     @discardableResult
-    public func getAddress(href: String, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) -> URLSessionDataTask {
-        let endpoint = DAWAEndpoint.getAddress(href: href)
-        return self.send(endpoint: endpoint, completionHandler: completionHandler)
+    public func getAddress(href: String, type: AutoCompleteType, completionHandler: @escaping (Result<DAWAAddressProtol, Error>) -> ()) -> URLSessionDataTask {
+        let endpoint = DAWAEndpoint.getAddress(href: href, type: type)
+
+        switch type {
+            case .adresse:
+                return self.send(endpoint: endpoint, completionHandler: { (result: Result<DAWAAdresse, Error>) in
+                    switch result {
+                        case .success(let address): completionHandler(.success(address))
+                        case .failure(let error): completionHandler(.failure(error))
+                    }
+                })
+            case .adgangsadresse:
+                return self.send(endpoint: endpoint, completionHandler: { (result: Result<DAWAAdgangsadresse, Error>) in
+                    switch result {
+                        case .success(let address): completionHandler(.success(address))
+                        case .failure(let error): completionHandler(.failure(error))
+                    }
+                })
+            case .vejnavn:
+                fatalError()
+        }
     }
 
     @discardableResult
-    public func getNearestAddress(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) -> URLSessionDataTask {
-        let endpoint = DAWAEndpoint.nearest(latitude: latitude, longitude: longitude)
-        return self.send(endpoint: endpoint, completionHandler: completionHandler)
+    public func getNearestAddress(latitude: Double, longitude: Double, type: AutoCompleteType, completionHandler: @escaping (Result<DAWAAddressProtol, Error>) -> ()) -> URLSessionDataTask {
+        let endpoint = DAWAEndpoint.nearest(latitude: latitude, longitude: longitude, type: type)
+        switch type {
+            case .adresse:
+                return self.send(endpoint: endpoint, completionHandler: { (result: Result<DAWAAdresse, Error>) in
+                    switch result {
+                        case .success(let address): completionHandler(.success(address))
+                        case .failure(let error): completionHandler(.failure(error))
+                    }
+                })
+            case .adgangsadresse:
+                return self.send(endpoint: endpoint, completionHandler: { (result: Result<DAWAAdgangsadresse, Error>) in
+                    switch result {
+                        case .success(let address): completionHandler(.success(address))
+                        case .failure(let error): completionHandler(.failure(error))
+                    }
+                })
+            case .vejnavn:
+                fatalError()
+        }
     }
 
     @discardableResult

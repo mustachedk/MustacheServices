@@ -6,5 +6,7 @@ Forskellen på en adresse og en adgangsadresse er at adressen rummer eventuel et
 Det gør adgangsadressen ikke.
 */
 public enum AutoCompleteType: String, Codable {
+
     case vejnavn, adgangsadresse, adresse
+
 }

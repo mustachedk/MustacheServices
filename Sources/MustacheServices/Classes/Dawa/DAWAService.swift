@@ -3,14 +3,14 @@ import Foundation
 public protocol DAWAServiceType: Service {
 
     @discardableResult
-    func choices(searchText: String, completionHandler: @escaping (Result<[AutoCompleteModel], Error>) -> ()) -> URLSessionDataTask
+    func choices(searchText: String, type: AutoCompleteType, completionHandler: @escaping (Result<[AutoCompleteModel], Error>) -> ()) -> URLSessionDataTask
 
     @discardableResult
-    func address(href: String, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) -> URLSessionDataTask
+    func address(href: String, type: AutoCompleteType, completionHandler: @escaping (Result<DAWAAddressProtol, Error>) -> ()) -> URLSessionDataTask
 
     @discardableResult
-    func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) -> URLSessionDataTask
-    
+    func nearest(latitude: Double, longitude: Double, type: AutoCompleteType, completionHandler: @escaping (Result<DAWAAddressProtol, Error>) -> ()) -> URLSessionDataTask
+
     @discardableResult
     func zip(searchText: String, completionHandler: @escaping (Result<[ZipAutoCompleteModel], Error>) -> ()) -> URLSessionDataTask
 
@@ -26,20 +26,20 @@ public final class DAWAService: NSObject, DAWAServiceType {
     }
 
     @discardableResult
-    public func choices(searchText: String, completionHandler: @escaping (Result<[AutoCompleteModel], Error>) -> ()) -> URLSessionDataTask {
-        return self.networkService.getAutoCompleteChoices(searchText: searchText, completionHandler: completionHandler)
+    public func choices(searchText: String, type: AutoCompleteType, completionHandler: @escaping (Result<[AutoCompleteModel], Error>) -> ()) -> URLSessionDataTask {
+        return self.networkService.getAutoCompleteChoices(searchText: searchText, type: type, completionHandler: completionHandler)
     }
 
     @discardableResult
-    public func address(href: String, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) -> URLSessionDataTask {
-        return self.networkService.getAddress(href: href, completionHandler: completionHandler)
+    public func address(href: String, type: AutoCompleteType, completionHandler: @escaping (Result<DAWAAddressProtol, Error>) -> ()) -> URLSessionDataTask {
+        return self.networkService.getAddress(href: href, type: type, completionHandler: completionHandler)
     }
 
     @discardableResult
-    public func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AutoCompleteAddress, Error>) -> ()) -> URLSessionDataTask {
-        return self.networkService.getNearestAddress(latitude: latitude, longitude: longitude, completionHandler: completionHandler)
+    public func nearest(latitude: Double, longitude: Double, type: AutoCompleteType, completionHandler: @escaping (Result<DAWAAddressProtol, Error>) -> ()) -> URLSessionDataTask {
+        return self.networkService.getNearestAddress(latitude: latitude, longitude: longitude, type: type, completionHandler: completionHandler)
     }
-    
+
     @discardableResult
     public func zip(searchText: String, completionHandler: @escaping (Result<[ZipAutoCompleteModel], Error>) -> ()) -> URLSessionDataTask {
         return self.networkService.getAutoCompleteZip(searchText: searchText, completionHandler: completionHandler)

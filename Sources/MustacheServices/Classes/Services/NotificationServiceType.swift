@@ -11,6 +11,10 @@ public protocol NotificationServiceType: class {
 
 public final class NotificationService: NSObject, NotificationServiceType, UNUserNotificationCenterDelegate {
 
+    public override init() {
+        super.init()
+    }
+
     public func registerForPushNotifications(completionHandler: @escaping (Bool, Error?) -> Void) {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { [weak self] granted, error in
             if granted { self?.getNotificationSettings() }

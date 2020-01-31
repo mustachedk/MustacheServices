@@ -14,6 +14,8 @@ public class NetworkService: NetworkServiceType {
     @Injected
     fileprivate var credentialsService: CredentialsServiceType
 
+    public init() { }
+
     public func send<T: Decodable>(endpoint: Endpoint, completionHandler: @escaping (Result<T, Error>) -> ()) -> URLSessionDataTask {
         return self.send(endpoint: endpoint, using: JSONDecoder(), completionHandler: completionHandler)
     }
@@ -48,19 +50,6 @@ public class NetworkService: NetworkServiceType {
             guard urlResponse.statusCode != 204 else {
                 completionHandler(.success(EmptyReply() as! T))
                 return
-            }
-
-            if #available(iOS 13.0, *) {
-                // guard urlResponse.value(forHTTPHeaderField: "Content-Type") != "application/text", let data = data else {
-                //     let string = String(data: data, encoding: .utf8)
-                //     completionHandler(.success(StringReply(string: string) as! T))
-                // }
-                // guard urlResponse.value(forHTTPHeaderField: "Content-Type") == "application/json" else {
-                //     completionHandler(.success(EmptyReply() as! T))
-                //     return
-                // }
-            } else {
-
             }
 
             guard urlResponse.statusCode < 400 else {

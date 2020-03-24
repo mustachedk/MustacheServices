@@ -3,6 +3,7 @@ import Foundation
 
 public struct DAWAAddress: Decodable {
 
+    public var id: String = ""
     public var road: String = ""
     public var roadNumber: String = ""
     public var zipCode: String = ""
@@ -13,6 +14,7 @@ public struct DAWAAddress: Decodable {
     public var readableAddress: String { return "\(self.road) \(self.roadNumber), \(self.zipCode) \(self.city)" }
 
     enum CodingKeys: String, CodingKey {
+        case id
         case vejstykke
         case roadNumber = "husnr"
         case postnummer
@@ -40,6 +42,8 @@ public struct DAWAAddress: Decodable {
         self.road = try vejstykkeInfo.decode(String.self, forKey: .navn)
 
         self.roadNumber = try values.decode(String.self, forKey: .roadNumber)
+        
+        self.id = try values.decode(String.self, forKey: .id)
 
         let postnummerInfo = try values.nestedContainer(keyedBy: PostnummerKeys.self, forKey: .postnummer)
         self.zipCode = try postnummerInfo.decode(String.self, forKey: .nr)

@@ -1,7 +1,7 @@
 import Foundation
 import Resolver
 
-protocol AddressServiceType {
+public protocol AddressServiceType {
     
     func choices(searchText: String, completionHandler: @escaping (Result<[AutoCompleteContainer], Error>) -> ()) -> URLSessionDataTask
     

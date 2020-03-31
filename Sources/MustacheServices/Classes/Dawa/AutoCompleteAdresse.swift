@@ -6,20 +6,20 @@
 import Foundation
 
 public struct AutoCompleteAdresse: Codable {
-    var id: String
-    var vejnavn: String
-    var husnr: String
-    var etage: String?
-    var dør: String?
-    var supplerendebynavn: String?
-    var postnr: String
-    var postnrnavn: String
-    var x: Double
-    var y: Double
-    var href: String
+    public var id: String
+    public var vejnavn: String
+    public var husnr: String
+    public var etage: String?
+    public var dør: String?
+    public var supplerendebynavn: String?
+    public var postnr: String
+    public var postnrnavn: String
+    public var x: Double
+    public var y: Double
+    public var href: String
 }
 
 public struct AutoCompleteAdresseContainer: Codable {
-    var tekst: String
-    var adresse: AutoCompleteAdresse
+    public var tekst: String
+    public var adresse: AutoCompleteAdresse
 }

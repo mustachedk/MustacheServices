@@ -6,12 +6,12 @@
 import Foundation
 
 public struct AutoCompletePostnummer: Codable {
-    var nr: String
-    var navn: String
-    var href: String
+   public var nr: String
+   public var navn: String
+   public var href: String
 }
 
 public struct AutoCompletePostnummerContainer: Codable {
-    var tekst: String
-    var postnummer: AutoCompletePostnummer
+    public var tekst: String
+    public var postnummer: AutoCompletePostnummer
 }

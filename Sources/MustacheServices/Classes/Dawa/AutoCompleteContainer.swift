@@ -8,19 +8,19 @@ import Foundation
 public struct AutoCompleteContainer: Codable {
 
     /// Den tekst, som input-feltet skal udfyldes med, hvis brugeren vælger forslaget
-    var tekst: String
+    public var tekst: String
 
     /// Forslagets type: "vejnavn", "adgangsadresse" eller "adresse"
-    var type: AddressType
+    public var type: AddressType
 
     /// Den tekst, der skal vises for dette forslag. Kan afvige fra den tekst der skal udfyldes i input-feltet.
-    var forslagstekst: String
+    public var forslagstekst: String
 
     ///Den position hvor careten (cursoren) skal placeres i inputfeltet, hvis brugeren vælger forslaget
-    var caretpos: Int
+    public var caretpos: Int
 
     ///Udvalgte datafelter for vejnavnet, adgangsadressen eller adressen der returneres.
-    var data: Codable
+    public var data: Codable
 
     enum CodingKeys: String, CodingKey {
         case type

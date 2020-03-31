@@ -6,6 +6,6 @@
 import Foundation
 
 public struct AutoCompleteVejNavn: Codable {
-    var navn: String
-    var href: String
+    public var navn: String
+    public var href: String
 }

@@ -31,7 +31,7 @@ extension Resolver {
     }
     
     public static func registerDawaServices() {
-        Resolver.register(DAWAServiceType.self) { DAWAService() }
+        Resolver.register(AddressServiceType.self) { AddressService() }
     }
 }
 

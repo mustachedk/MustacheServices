@@ -11,8 +11,9 @@ let package = Package(
   ],
   dependencies: [
      .package(url: "https://github.com/hmlongco/Resolver.git", .upToNextMajor(from: "1.1.1")),
+     .package(url: "https://github.com/mustachedk/MustacheFoundation.git", .upToNextMajor(from: "1.1.0"))
   ],
   targets: [
-    .target(name: "MustacheServices",dependencies: ["Resolver"])
+    .target(name: "MustacheServices",dependencies: ["Resolver", "MustacheFoundation"])
   ]
 )

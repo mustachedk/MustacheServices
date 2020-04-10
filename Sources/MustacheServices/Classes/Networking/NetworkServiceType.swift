@@ -48,7 +48,11 @@ public class NetworkService: NetworkServiceType {
             }
 
             guard urlResponse.statusCode != 204 else {
-                completionHandler(.success(EmptyReply() as! T))
+                guard let reply = EmptyReply() as? T else {
+                    completionHandler(.failure(NetworkServiceTypeError.invalidResponseType(response, data)))
+                    return
+                }
+                completionHandler(.success(reply))
                 return
             }
 
@@ -61,11 +65,7 @@ public class NetworkService: NetworkServiceType {
                 let model: T = try decoder.decode(T.self, from: data ?? Data())
                 completionHandler(.success(model))
             } catch let error {
-                if type(of: T.self) == EmptyReply.self {
-                    completionHandler(.success(EmptyReply() as! T))
-                } else {
-                    completionHandler(.failure(NetworkServiceTypeError.decodingError(urlResponse, data, error)))
-                }
+                completionHandler(.failure(NetworkServiceTypeError.decodingError(urlResponse, data, error)))
             }
         }
         task.resume()

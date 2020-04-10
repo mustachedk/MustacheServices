@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'MustacheServices'
-    s.version          = '2.0.3'
+    s.version          = '3.0.1'
     s.summary          = 'Helper methods used at Mustache when creating new apps.'
     s.homepage         = 'https://github.com/mustachedk/MustacheServices'
     s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
 
     s.frameworks = 'UIKit'
 
-    s.dependency 'SwiftKeychainWrapper'
+    s.dependency 'MustacheFoundation'
     #s.dependency 'KSCrash'
 
     s.static_framework = true

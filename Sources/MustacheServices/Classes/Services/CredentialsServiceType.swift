@@ -1,5 +1,6 @@
 
 import Foundation
+import MustacheFoundation
 
 public protocol CredentialsServiceType: class {
 
@@ -17,30 +18,20 @@ public protocol CredentialsServiceType: class {
 
 public class CredentialsService: CredentialsServiceType {
 
-    public var username: String? {
-        get { return KeychainWrapper.standard.string(forKey: #function) }
-        set { if let value = newValue { KeychainWrapper.standard.set(value, forKey: #function) } else { KeychainWrapper.standard.removeObject(forKey: #function) } }
-    }
+    @KeychainOptional(CredentialsConstants.username.rawValue)
+    public var username: String?
 
-    public var password: String? {
-        get { return KeychainWrapper.standard.string(forKey: #function) }
-        set { if let value = newValue { KeychainWrapper.standard.set(value, forKey: #function) } else { KeychainWrapper.standard.removeObject(forKey: #function) } }
-    }
+    @KeychainOptional(CredentialsConstants.password.rawValue)
+    public var password: String?
     
-    public var bearer: String? {
-        get { return KeychainWrapper.standard.string(forKey: #function) }
-        set { if let value = newValue { KeychainWrapper.standard.set(value, forKey: #function) } else { KeychainWrapper.standard.removeObject(forKey: #function) } }
-    }
+    @KeychainOptional(CredentialsConstants.bearer.rawValue)
+    public var bearer: String?
 
-    public var accessToken: String? {
-        get { return KeychainWrapper.standard.string(forKey: #function) }
-        set { if let value = newValue { KeychainWrapper.standard.set(value, forKey: #function) } else { KeychainWrapper.standard.removeObject(forKey: #function) } }
-    }
+    @KeychainOptional(CredentialsConstants.accessToken.rawValue)
+    public var accessToken: String?
 
-    public var refreshToken: String? {
-        get { return KeychainWrapper.standard.string(forKey: #function) }
-        set { if let value = newValue { KeychainWrapper.standard.set(value, forKey: #function) } else { KeychainWrapper.standard.removeObject(forKey: #function) } }
-    }
+    @KeychainOptional(CredentialsConstants.refreshToken.rawValue)
+    public var refreshToken: String?
 
     public init() {}
 
@@ -52,4 +43,9 @@ public class CredentialsService: CredentialsServiceType {
         self.refreshToken = nil
     }
 
+    public enum CredentialsConstants: String {
+        case username, password, bearer, accessToken, refreshToken
+    }
+
 }
+

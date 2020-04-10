@@ -17,20 +17,30 @@ public protocol CredentialsServiceType: class {
 
 public class CredentialsService: CredentialsServiceType {
 
-    @KeychainOptional
-    public var username: String?
+    public var username: String? {
+        get { return KeychainWrapper.standard.string(forKey: #function) }
+        set { if let value = newValue { KeychainWrapper.standard.set(value, forKey: #function) } else { KeychainWrapper.standard.removeObject(forKey: #function) } }
+    }
 
-    @KeychainOptional
-    public var password: String?
+    public var password: String? {
+        get { return KeychainWrapper.standard.string(forKey: #function) }
+        set { if let value = newValue { KeychainWrapper.standard.set(value, forKey: #function) } else { KeychainWrapper.standard.removeObject(forKey: #function) } }
+    }
     
-    @KeychainOptional
-    public var bearer: String?
+    public var bearer: String? {
+        get { return KeychainWrapper.standard.string(forKey: #function) }
+        set { if let value = newValue { KeychainWrapper.standard.set(value, forKey: #function) } else { KeychainWrapper.standard.removeObject(forKey: #function) } }
+    }
 
-    @KeychainOptional
-    public var accessToken: String?
+    public var accessToken: String? {
+        get { return KeychainWrapper.standard.string(forKey: #function) }
+        set { if let value = newValue { KeychainWrapper.standard.set(value, forKey: #function) } else { KeychainWrapper.standard.removeObject(forKey: #function) } }
+    }
 
-    @KeychainOptional
-    public var refreshToken: String?
+    public var refreshToken: String? {
+        get { return KeychainWrapper.standard.string(forKey: #function) }
+        set { if let value = newValue { KeychainWrapper.standard.set(value, forKey: #function) } else { KeychainWrapper.standard.removeObject(forKey: #function) } }
+    }
 
     public init() {}
 

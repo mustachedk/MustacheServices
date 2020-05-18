@@ -9,7 +9,7 @@ public protocol CoordinatorType: NSObjectProtocol {
 
     func transition(to transition: Transition) throws
 
-    func route(to: route: Route)
+    func route(to route: Route)
 
 }
 

@@ -33,7 +33,7 @@ extension AddressEndpoint: Endpoint {
             case .zip(let searchText):
                 return ["q": searchText]
             case .nearest(let latitude, let longitude):
-                return ["x": latitude, "y": longitude]
+                return ["x": "\(latitude)", "y": "\(longitude)"]
         }
     }
 }

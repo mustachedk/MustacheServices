@@ -8,6 +8,8 @@ public protocol AddressServiceType {
     func find(addresse: String, completionHandler: @escaping (Result<[AutoCompleteAdresseContainer], Error>) -> ()) -> URLSessionDataTask
     
     func zipCodes(searchText: String, completionHandler: @escaping (Result<[AutoCompletePostnummerContainer], Error>) -> ()) -> URLSessionDataTask
+
+    func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AutoCompleteAdgangsAdresse?, Error>) -> ()) -> URLSessionDataTask
     
 }
 
@@ -28,6 +30,11 @@ class AddressService: NSObject, AddressServiceType {
     
     func zipCodes(searchText: String, completionHandler: @escaping (Result<[AutoCompletePostnummerContainer], Error>) -> ()) -> URLSessionDataTask {
         let endpoint = AddressEndpoint.zip(searchText: searchText)
+        return self.networkService.send(endpoint: endpoint, completionHandler: completionHandler)
+    }
+
+    func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AutoCompleteAdgangsAdresse?, Error>) -> ()) -> URLSessionDataTask {
+        let endpoint = AddressEndpoint.nearest(latitude: latitude, longitude: longitude)
         return self.networkService.send(endpoint: endpoint, completionHandler: completionHandler)
     }
     

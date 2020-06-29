@@ -9,7 +9,7 @@ public protocol AddressServiceType {
 
     func zipCodes(searchText: String, completionHandler: @escaping (Result<[AutoCompletePostnummerContainer], Error>) -> ()) -> URLSessionDataTask
 
-    func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AutoCompleteAdgangsAdresse, Error>) -> ()) -> URLSessionDataTask
+    func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<[AdgangsAdresse], Error>) -> ()) -> URLSessionDataTask
 
 }
 

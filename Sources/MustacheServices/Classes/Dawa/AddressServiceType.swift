@@ -9,7 +9,7 @@ public protocol AddressServiceType {
 
     func zipCodes(searchText: String, completionHandler: @escaping (Result<[AutoCompletePostnummerContainer], Error>) -> ()) -> URLSessionDataTask
 
-    func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<[AdgangsAdresse], Error>) -> ()) -> URLSessionDataTask
+    func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AdgangsAdresse, Error>) -> ()) -> URLSessionDataTask
 
 }
 
@@ -33,7 +33,7 @@ class AddressService: NSObject, AddressServiceType {
         return self.networkService.send(endpoint: endpoint, completionHandler: completionHandler)
     }
 
-    func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<[AdgangsAdresse], Error>) -> ()) -> URLSessionDataTask {
+    func nearest(latitude: Double, longitude: Double, completionHandler: @escaping (Result<AdgangsAdresse, Error>) -> ()) -> URLSessionDataTask {
         let endpoint = AddressEndpoint.nearest(latitude: latitude, longitude: longitude)
         return self.networkService.send(endpoint: endpoint, completionHandler: completionHandler)
     }

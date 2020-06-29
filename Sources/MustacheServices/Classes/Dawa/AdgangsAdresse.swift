@@ -8,16 +8,15 @@
 import Foundation
 
 // MARK: - AdgangsAdresse
-struct AdgangsAdresse: Codable {
+public struct AdgangsAdresse: Codable {
     let href: String
     let id: String
-    let vejstykke: Kommune
+    let vejstykke: Vejstykke
     let husnr: String
     let navngivenvej: Vejstykke
     let supplerendebynavn: String?
     let postnummer: Postnummer
     let adgangspunkt: Adgangspunkt
-    let vejpunkt: Vejpunkt
 
     enum CodingKeys: String, CodingKey {
         case href = "href"
@@ -28,11 +27,10 @@ struct AdgangsAdresse: Codable {
         case supplerendebynavn = "supplerendebynavn"
         case postnummer = "postnummer"
         case adgangspunkt = "adgangspunkt"
-        case vejpunkt = "vejpunkt"
     }
 }
 
-struct Vejstykke: Codable {
+public struct Vejstykke: Codable {
     let href: String
     let kode: String
     let navn: String
@@ -46,7 +44,7 @@ struct Vejstykke: Codable {
     }
 }
 
-struct Adgangspunkt: Codable {
+public struct Adgangspunkt: Codable {
     let id: String
     let koordinater: [Double]
 
@@ -56,7 +54,7 @@ struct Adgangspunkt: Codable {
     }
 }
 
-struct Postnummer: Codable {
+public struct Postnummer: Codable {
     let href: String
     let nr: String
     let navn: String

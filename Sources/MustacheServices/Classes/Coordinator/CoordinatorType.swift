@@ -3,6 +3,8 @@ import UIKit
 // https://medium.com/concretelatinoamérica/inverse-reference-coordinator-pattern-d5a5948c0d90
 public protocol CoordinatorType: NSObjectProtocol {
 
+    var baseController: UIViewController? { get }
+
     func start() throws
 
     func stop() throws

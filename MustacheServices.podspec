@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'MustacheServices'
-    s.version          = '3.5.1'
+    s.version          = '4.0.0'
     s.summary          = 'Helper methods used at Mustache when creating new apps.'
     s.homepage         = 'https://github.com/mustachedk/MustacheServices'
     s.license          = { :type => 'MIT', :file => 'LICENSE' }

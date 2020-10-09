@@ -17,8 +17,10 @@ public protocol Endpoint {
     var demoData: Decodable? { get }
 
     var authentication: Authentication { get }
-    
+
     var urlEncoding: [String: String]? { get }
+
+    var cachePolicy: URLRequest.CachePolicy { get }
 }
 
 public extension Endpoint {
@@ -36,6 +38,8 @@ public extension Endpoint {
     var authentication: Authentication { return .none }
 
     var urlEncoding: [String: String]? { return nil }
+
+    var cachePolicy: URLRequest.CachePolicy { return .useProtocolCachePolicy }
 }
 
 public enum Authentication {
@@ -63,6 +67,7 @@ public extension Endpoint {
         }
 
         var request = URLRequest(url: url)
+        request.cachePolicy = self.cachePolicy
         request.httpMethod = method.rawValue
 
         for (key, value) in self.headers {
@@ -88,7 +93,7 @@ public extension Endpoint {
                 request.httpBody = data as Data
             }
         }
-        
+
         return request
     }
 

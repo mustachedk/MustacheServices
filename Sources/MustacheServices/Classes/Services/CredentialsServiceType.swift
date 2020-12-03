@@ -9,9 +9,7 @@ public protocol CredentialsServiceType: class {
 
     var bearer: String? { get set }
 
-    var accessToken: String? { get set }
-
-    var refreshToken: String? { get set }
+    var oauthToken: OAuthTokenType? { get set }
 
     func clearState()
 

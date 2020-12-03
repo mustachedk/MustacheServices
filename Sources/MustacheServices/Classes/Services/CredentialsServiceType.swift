@@ -51,7 +51,7 @@ public struct OAuthTokenType: Codable {
     public var refreshToken: String?
     public var refreshTokenExpiration: Date?
 
-    init(accessToken: String, accessTokenExpiration: Date, refreshToken: String? = nil, refreshTokenExpiration: Date? = nil) {
+    public init(accessToken: String, accessTokenExpiration: Date, refreshToken: String? = nil, refreshTokenExpiration: Date? = nil) {
         self.accessToken = accessToken
         self.accessTokenExpiration = accessTokenExpiration
         self.refreshToken = refreshToken

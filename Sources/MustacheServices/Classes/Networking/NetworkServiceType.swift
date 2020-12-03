@@ -14,7 +14,7 @@ public class NetworkService: NetworkServiceType {
     @Injected
     fileprivate var credentialsService: CredentialsServiceType
 
-    public init() { }
+    public init() {}
 
     public func send<T: Decodable>(endpoint: Endpoint, completionHandler: @escaping (Result<T, Error>) -> ()) -> URLSessionDataTask {
         return self.send(endpoint: endpoint, using: JSONDecoder(), completionHandler: completionHandler)
@@ -29,7 +29,14 @@ public class NetworkService: NetworkServiceType {
 
         var request = endpoint.request()
 
-        if endpoint.authentication == .bearer, let token = self.credentialsService.bearer {
+        if endpoint.authentication == .oauth {
+            guard let token = self.credentialsService.oauthToken, token.accessTokenExpiration < Date() else {
+                completionHandler(.failure(NetworkServiceTypeError.accessTokenExpired))
+                return
+            }
+            request.addValue("Bearer \(token.accessToken)", forHTTPHeaderField: "Authorization")
+
+        } else if endpoint.authentication == .bearer, let token = self.credentialsService.bearer {
 
             request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
@@ -80,4 +87,6 @@ public enum NetworkServiceTypeError: Error {
     case decodingError(URLResponse?, Data?, Error)
     case invalidResponseType(URLResponse?, Data?)
     case unSuccessful(URLResponse?, Data?, Int, Error?)
+    case accessTokenExpired
+    case refreshTokenExpired
 }

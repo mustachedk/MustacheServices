@@ -46,6 +46,7 @@ public enum Authentication {
     case none
     case basic
     case bearer
+    case oauth
 }
 
 public extension Endpoint {

@@ -1,4 +1,3 @@
-
 import Foundation
 import MustacheFoundation
 
@@ -29,11 +28,8 @@ public class CredentialsService: CredentialsServiceType {
     @KeychainOptional(CredentialsConstants.bearer.rawValue)
     public var bearer: String?
 
-    @KeychainOptional(CredentialsConstants.accessToken.rawValue)
-    public var accessToken: String?
-
-    @KeychainOptional(CredentialsConstants.refreshToken.rawValue)
-    public var refreshToken: String?
+    @KeychainOptional(CredentialsConstants.oauth.rawValue)
+    public var oauthToken: OAuthTokenType?
 
     public init() {}
 
@@ -41,12 +37,18 @@ public class CredentialsService: CredentialsServiceType {
         self.username = nil
         self.password = nil
         self.bearer = nil
-        self.accessToken = nil
-        self.refreshToken = nil
+        self.oauthToken = nil
     }
 
     public enum CredentialsConstants: String {
-        case username, password, bearer, accessToken, refreshToken
+        case username, password, bearer, oauth
     }
 
+}
+
+protocol OAuthTokenType: Codable {
+    var accessToken: String
+    var accessTokenExpiration: Date
+    var refreshToken: String?
+    var refreshTokenExpiration: Date?
 }

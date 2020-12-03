@@ -46,9 +46,18 @@ public class CredentialsService: CredentialsServiceType {
 
 }
 
-protocol OAuthTokenType: Codable {
+struct OAuthTokenType: Codable {
+
     var accessToken: String
     var accessTokenExpiration: Date
     var refreshToken: String?
     var refreshTokenExpiration: Date?
+
+    init(accessToken: String, accessTokenExpiration: Date, refreshToken: String? = nil, refreshTokenExpiration: Date? = nil) {
+        self.accessToken = accessToken
+        self.accessTokenExpiration = accessTokenExpiration
+        self.refreshToken = refreshToken
+        self.refreshTokenExpiration = refreshTokenExpiration
+    }
+
 }

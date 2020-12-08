@@ -29,7 +29,7 @@ public extension CLLocation {
 public extension CLLocationCoordinate2D {
 
     func movedBy(latitudinalMeters: CLLocationDistance, longitudinalMeters: CLLocationDistance) -> CLLocation {
-        let location = CLLocation(coordinate: self)
+        let location = CLLocation(latitude: self.latitude, longitude: self.longitude)
         return location.movedBy(latitudinalMeters: latitudinalMeters, longitudinalMeters: longitudinalMeters)
     }
 }

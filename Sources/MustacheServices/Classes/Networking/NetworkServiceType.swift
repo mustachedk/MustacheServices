@@ -30,7 +30,7 @@ public class NetworkService: NetworkServiceType {
         var request = endpoint.request()
 
         if endpoint.authentication == .oauth {
-            guard let token = self.credentialsService.oauthToken, token.accessTokenExpiration < Date() else {
+            guard let token = self.credentialsService.oauthToken, token.accessTokenExpiration > Date() else {
                 completionHandler(.failure(NetworkServiceTypeError.accessTokenExpired))
                 return URLSession.shared.dataTask(with: URL(string: "http://wwww.google.dk")!)
             }

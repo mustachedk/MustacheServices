@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/mustachedk/MustacheFoundation.git",
         "state": {
           "branch": null,
-          "revision": "c4b4c76627a65872ac64d6faf026ce728a92f4f3",
-          "version": "1.1.0"
+          "revision": "2ba70102c04742687f96262da2d2297f487c3782",
+          "version": "2.0.3"
         }
       },
       {
@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/hmlongco/Resolver.git",
         "state": {
           "branch": null,
-          "revision": "e95a4a174adac202b75f5f6188e7dbd5d21ce180",
-          "version": "1.1.1"
+          "revision": "97de0b0320036607564af4a60025b48f8d041221",
+          "version": "1.5.0"
         }
       }
     ]

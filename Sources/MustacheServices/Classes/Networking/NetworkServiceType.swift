@@ -1,7 +1,7 @@
 import Foundation
 import Resolver
 
-public protocol NetworkServiceType: class {
+public protocol NetworkServiceType: AnyObject {
 
     func send<T: Decodable>(endpoint: Endpoint, completionHandler: @escaping (Result<T, Error>) -> ()) -> URLSessionDataTask
 

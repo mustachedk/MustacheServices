@@ -1,7 +1,7 @@
 import Foundation
 import MustacheFoundation
 
-public protocol CredentialsServiceType: class {
+public protocol CredentialsServiceType: AnyObject {
 
     var username: String? { get set }
 

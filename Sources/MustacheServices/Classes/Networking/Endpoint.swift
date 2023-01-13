@@ -12,15 +12,17 @@ public protocol Endpoint {
 
     var headers: [String: String] { get }
 
-    var body: Encodable? { get }
+    var body: AnyObject? { get }
 
     var demoData: Decodable? { get }
 
     var authentication: Authentication { get }
 
-    var urlEncoding: [String: String]? { get }
+    var encoding: EncodingType { get }
 
     var cachePolicy: URLRequest.CachePolicy { get }
+    
+    var useLegacyHTTP: Bool { get }
 }
 
 public extension Endpoint {
@@ -31,15 +33,23 @@ public extension Endpoint {
 
     var headers: [String: String] { return [:] }
 
-    var body: Encodable? { return nil }
+    var body: AnyObject? { return nil }
 
     var demoData: Decodable? { return nil }
 
     var authentication: Authentication { return .none }
 
-    var urlEncoding: [String: String]? { return nil }
+    var encoding: EncodingType { return .json }
 
     var cachePolicy: URLRequest.CachePolicy { return .useProtocolCachePolicy }
+    
+    var useLegacyHTTP: Bool {
+        if #available(iOS 15.0, *) {
+            return false
+        } else {
+            return true
+        }
+    }
 }
 
 public enum Authentication {
@@ -74,28 +84,85 @@ public extension Endpoint {
         for (key, value) in self.headers {
             request.addValue(value, forHTTPHeaderField: key)
         }
-
-        if let body = self.body as? Data {
-            request.httpBody = body
-        } else if let body = self.body {
-            let wrapper = EncodableWrapper(body)
-            let encoder = JSONEncoder()
-            guard let data = try? encoder.encode(wrapper) else { fatalError("Unable to encode body \(body)") }
-            request.httpBody = data
-        } else if let urlEncoding = self.urlEncoding {
-            let arrayDict = Array(urlEncoding)
-            if arrayDict.count > 0 {
-                let data = NSMutableData(data: "\(arrayDict.first!.key)=\(arrayDict.first!.value)".data(using: String.Encoding.utf8)!)
-                if arrayDict.count > 1 {
-                    for dict in arrayDict.dropFirst() {
-                        data.append("&\(dict.key)=\(dict.value)".data(using: String.Encoding.utf8)!)
+        
+        switch self.encoding {
+            case .json:
+                
+                guard let body = self.body as? Encodable else { fatalError("Unable to cast body as Encodable") }
+                
+                let wrapper = EncodableWrapper(body)
+                let encoder = JSONEncoder()
+                guard let data = try? encoder.encode(wrapper) else { fatalError("Unable to encode body \(body)") }
+                
+                request.httpBody = data
+                request.addValue(self.encoding.contentType, forHTTPHeaderField: "Content-Type")
+                
+            case .urlEncoded:
+                
+                guard let body = self.body as? [String: String] else { fatalError("Unable to cast body as [String: String]") }
+                
+                if body.count == 0 { break }
+                let arrayDictionary = Array(body)
+                let data = NSMutableData(data: "\(arrayDictionary.first!.key)=\(arrayDictionary.first!.value)".data(using: .utf8)!)
+                if arrayDictionary.count > 1 {
+                    for dict in arrayDictionary.dropFirst() {
+                        data.append("&\(dict.key)=\(dict.value)".data(using: .utf8)!)
                     }
                 }
+                
                 request.httpBody = data as Data
-            }
+                request.addValue(self.encoding.contentType, forHTTPHeaderField: "Content-Type")
+                
+            case .multipartFormData:
+                
+                guard let body = self.body as? [FormData] else { fatalError("Unable to cast body as [FormData]") }
+                
+                let boundary = self.generateBoundaryString()
+                let content = NSMutableData()
+                
+                for data in body {
+                    switch data {
+                        case .text(let key, let value):
+                            var headers = "\(boundary)\r\n"
+                            headers += "Content-Disposition: form-data; name=\"\(key)\"\r\n"
+                            headers += "\r\n"
+                            headers += "\(value)\r\n"
+                            guard let data = headers.data(using: .utf8) else { fatalError("Unable to encode \(key) as Data") }
+                            content.append(data)
+                        case .data(let key,let fileName, let contentType, let value):
+                            var headers = "\(boundary)\r\n"
+                            headers += "Content-Disposition:form-data; name=\"\(key)\"; filename=\"\(fileName)\"\r\n"
+                            headers += "Content-Type: \(contentType)\r\n"
+                            headers += "\r\n"
+                            guard let data = headers.data(using: .utf8) else { fatalError("Unable to encode headers for \(key) as Data") }
+                            content.append(data)
+                            content.append(value)
+                            guard let crlf = "\r\n".data(using: .utf8) else { fatalError("Unable to encode CRLF for \(key) as Data") }
+                            content.append(crlf)
+                    }
+                }
+                guard let end = "\(boundary)--\r\n".data(using:.utf8) else { fatalError("Unable to encode end for Form Data") }
+                content.append(end)
+                
+                request.httpBody = content as Data
+                request.addValue("\(self.encoding.contentType); boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+            
+            case .data:
+                
+                guard let body = self.body as? Data else { fatalError("Unable to cast body as Data") }
+                request.httpBody = body
+                request.addValue(self.encoding.contentType, forHTTPHeaderField: "Content-Type")
         }
-
+        
         return request
     }
 
+}
+
+extension Endpoint {
+    
+    private func generateBoundaryString() -> String {
+        return "Boundary-\(NSUUID().uuidString)"
+    }
+    
 }

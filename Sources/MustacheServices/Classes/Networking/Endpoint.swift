@@ -39,7 +39,7 @@ public extension Endpoint {
 
     var authentication: Authentication { return .none }
 
-    var encoding: EncodingType { return .json }
+    var encoding: EncodingType { return .none }
 
     var cachePolicy: URLRequest.CachePolicy { return .useProtocolCachePolicy }
     

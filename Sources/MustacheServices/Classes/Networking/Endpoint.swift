@@ -86,6 +86,9 @@ public extension Endpoint {
         }
         
         switch self.encoding {
+            case .none:
+                break
+                
             case .json:
                 
                 guard let body = self.body as? Encodable else { fatalError("Unable to cast body as Encodable") }

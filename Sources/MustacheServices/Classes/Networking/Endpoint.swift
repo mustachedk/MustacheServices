@@ -33,7 +33,7 @@ public extension Endpoint {
 
     var headers: [String: String] { return [:] }
 
-    var body: AnyObject? { return nil }
+    var body: Any? { return nil }
 
     var demoData: Decodable? { return nil }
 

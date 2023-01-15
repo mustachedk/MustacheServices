@@ -12,7 +12,7 @@ public protocol Endpoint {
 
     var headers: [String: String] { get }
 
-    var body: AnyObject? { get }
+    var body: Any? { get }
 
     var demoData: Decodable? { get }
 

@@ -10,24 +10,31 @@ public protocol CredentialsServiceType: AnyObject {
     var bearer: String? { get set }
 
     var oauthToken: OAuthTokenType? { get set }
+    
+    var oauthToken2: OAuthTokenType? { get set }
 
     func clearState()
 
 }
 
 public class CredentialsService: CredentialsServiceType {
+    
+    static var accessibility: KeychainItemAccessibility = .whenUnlocked
 
-    @KeychainOptional(CredentialsConstants.username.rawValue)
+    @KeychainOptional(CredentialsConstants.username.rawValue, accessibility: CredentialsService.accessibility)
     public var username: String?
 
-    @KeychainOptional(CredentialsConstants.password.rawValue)
+    @KeychainOptional(CredentialsConstants.password.rawValue, accessibility: CredentialsService.accessibility)
     public var password: String?
 
-    @KeychainOptional(CredentialsConstants.bearer.rawValue)
+    @KeychainOptional(CredentialsConstants.bearer.rawValue, accessibility: CredentialsService.accessibility)
     public var bearer: String?
 
-    @KeychainOptional(CredentialsConstants.oauth.rawValue)
+    @KeychainOptional(CredentialsConstants.oauth.rawValue, accessibility: CredentialsService.accessibility)
     public var oauthToken: OAuthTokenType?
+    
+    @KeychainOptional(CredentialsConstants.oauth2.rawValue, accessibility: CredentialsService.accessibility)
+    public var oauthToken2: OAuthTokenType?
 
     public init() {}
 
@@ -36,10 +43,11 @@ public class CredentialsService: CredentialsServiceType {
         self.password = nil
         self.bearer = nil
         self.oauthToken = nil
+        self.oauthToken2 = nil
     }
 
     public enum CredentialsConstants: String {
-        case username, password, bearer, oauth
+        case username, password, bearer, oauth, oauth2
     }
 
 }

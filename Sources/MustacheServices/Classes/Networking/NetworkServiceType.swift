@@ -41,6 +41,18 @@ public class NetworkService: NetworkServiceType {
             }
             request.addValue("Bearer \(token.accessToken)", forHTTPHeaderField: "Authorization")
 
+        } else if endpoint.authentication == .oauth2 {
+            guard let token = self.credentialsService.oauthToken2, token.accessTokenExpiration > Date() else {
+                completionHandler(.failure(NetworkServiceTypeError.accessTokenExpired))
+                if endpoint.useLegacyHTTP {
+                    return NSURLConnection(request: request, delegate: nil, startImmediately: true)!
+                } else {
+                    return URLSession.shared.dataTask(with: URL(string: "http://wwww.google.dk")!)
+                }
+                
+            }
+            request.addValue("Bearer \(token.accessToken)", forHTTPHeaderField: "Authorization")
+            
         } else if endpoint.authentication == .bearer, let token = self.credentialsService.bearer {
 
             request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")

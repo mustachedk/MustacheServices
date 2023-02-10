@@ -19,7 +19,7 @@ public protocol CredentialsServiceType: AnyObject {
 
 public class CredentialsService: CredentialsServiceType {
     
-    static var accessibility: KeychainItemAccessibility = .whenUnlocked
+    public static var accessibility: KeychainItemAccessibility = .whenUnlocked
 
     @KeychainOptional(CredentialsConstants.username.rawValue, accessibility: CredentialsService.accessibility)
     public var username: String?

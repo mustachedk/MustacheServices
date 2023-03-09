@@ -39,11 +39,23 @@ public class CredentialsService: CredentialsServiceType {
     public init() {}
 
     public func clearState() {
-        self.username = nil
-        self.password = nil
-        self.bearer = nil
-        self.oauthToken = nil
-        self.oauthToken2 = nil
+        
+        for accessibility in KeychainItemAccessibility.allCases {
+            KeychainWrapper.standard.removeObject(forKey: CredentialsConstants.username.rawValue, withAccessibility: accessibility)
+        }
+        for accessibility in KeychainItemAccessibility.allCases {
+            KeychainWrapper.standard.removeObject(forKey: CredentialsConstants.password.rawValue, withAccessibility: accessibility)
+        }
+        for accessibility in KeychainItemAccessibility.allCases {
+            KeychainWrapper.standard.removeObject(forKey: CredentialsConstants.bearer.rawValue, withAccessibility: accessibility)
+        }
+        for accessibility in KeychainItemAccessibility.allCases {
+            KeychainWrapper.standard.removeObject(forKey: CredentialsConstants.oauth.rawValue, withAccessibility: accessibility)
+        }
+        for accessibility in KeychainItemAccessibility.allCases {
+            KeychainWrapper.standard.removeObject(forKey: CredentialsConstants.oauth2.rawValue, withAccessibility: accessibility)
+        }
+        
     }
 
     public enum CredentialsConstants: String {
